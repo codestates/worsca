@@ -30,13 +30,12 @@ const MainTitle = styled.div`
 	.main__title__text {
 		height: 8rem;
 		color: #f5f5f3;
-		-webkit-text-stroke: 2px darkblue;
 	}
 `;
 
 // 검색창 스타일
 const MainSearchbar = styled.form`
-	border: 3px solid #5dd9e1;
+	border: 3px solid #38d9a9;
 	background-color: rgba(255, 255, 255, 0.05);
 	height: 5.4vh;
 	min-width: 250px;
@@ -50,11 +49,11 @@ const MainSearchbar = styled.form`
 		margin-left: 16px;
 		border: none;
 		width: 80%;
-		color: #5dd9e1;
+		color: #38d9a9;
 		font-weight: bold;
 		font-size: 18;
 		&::placeholder {
-			color: #5dd9e1;
+			color: #f5f5f3;
 			font-weight: bold;
 			font-size: 18px;
 		}
@@ -63,7 +62,8 @@ const MainSearchbar = styled.form`
 		border: none;
 		background: none;
 		margin-right: 24px;
-		color: #5dd9e1;
+		color: #38d9a9;
+		font-size: 22px;
 	}
 `;
 

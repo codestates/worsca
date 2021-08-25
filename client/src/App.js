@@ -4,7 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import Mainpage from "./components/Mainpage";
 
 const GlobalStyles = createGlobalStyle`
-    * {
+	* {
     margin: 0;
     padding: 0;
     border: none;
@@ -13,14 +13,26 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 	body {
-		/* background-color: #F5F5F3; */
-		background-color: black;
+		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+		font-family: "Noto Sans KR", sans-serif !important;
+		background-color: #F5F5F3;
+		/* background-color: black; */
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
 	}
+	input {
+		background-color: rgba(0, 0, 0, 0);
+		border: 1px solid #38d9a9;
+		color: #38d9a9;
+		&::placeholder {
+			color: #f5f5f3;
+			font-weight: bold;
+			font-size: 18px;
+		}
+	}
 	button {
-		border: none;
+		border: 1px solid #38d9a9;
 		background: none;
 		cursor: pointer;
 	}
