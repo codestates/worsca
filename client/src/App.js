@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import Mainpage from "./components/Mainpage";
 
 const GlobalStyles = createGlobalStyle`
     * {
@@ -11,13 +12,28 @@ const GlobalStyles = createGlobalStyle`
     list-style: none;
     text-decoration: none;
   }
+	body {
+		/* background-color: #F5F5F3; */
+		background-color: black;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
+	button {
+		border: none;
+		background: none;
+		cursor: pointer;
+	}
 `;
 
 function App() {
 	return (
 		<Router>
+			<GlobalStyles />
 			<Switch>
-				<Route exact path="/"></Route>
+				<Route exact path="/">
+					<Mainpage />
+				</Route>
 				<Route exact path="/map"></Route>
 				<Route exact path="/login"></Route>
 				<Route exact path="/signup"></Route>
