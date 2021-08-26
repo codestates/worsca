@@ -17,9 +17,14 @@ const MainpageSection = styled.div`
 	height: 100vh;
 	overflow: hidden;
 	video {
-		width: 100%;
+		position: fixed;
+		min-width: 100%;
+		min-height: 100%;
+		top: 0;
+		left: 0;
+		width: auto;
+		height: auto;
 		z-index: -1;
-		position: absolute;
 	}
 `;
 
@@ -67,6 +72,29 @@ const MainSearchbar = styled.form`
 	}
 `;
 
+const BtnBox = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	.btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 10px;
+		color: #f5f5f3;
+		font-weight: bold;
+		font-size: 1rem;
+		&:hover {
+			transform: scale(1.06);
+		}
+		border: 3px solid #38d9a9;
+		color: #f5f5f3;
+		height: 2rem;
+		width: 5rem;
+		margin: 0.5rem;
+		border-radius: 15px;
+	}
+`;
+
 // ! 이벤트 핸들러
 const searchValue = (e) => {
 	console.log(e.target.value);
@@ -74,23 +102,30 @@ const searchValue = (e) => {
 
 const Mainpage = () => {
 	return (
-		<MainpageSection>
-			<MainTitle>
-				<Link to="/">
-					<img src={logo} alt="worsca" className="main__title__text"></img>
+		<>
+			<BtnBox>
+				<Link className="btn" to="/login">
+					Login
 				</Link>
-			</MainTitle>
-			<MainSearchbar onSubmit={(e) => e.preventDefault()}>
-				<input
-					placeholder="가고싶은 장소를 적어주세요"
-					onChange={(e) => searchValue(e)}
-				/>
-				<button>Q</button>
-			</MainSearchbar>
-			<video autoPlay muted loop>
-				<source src={video} type="video/mp4"></source>
-			</video>
-		</MainpageSection>
+			</BtnBox>
+			<MainpageSection>
+				<MainTitle>
+					<Link to="/">
+						<img src={logo} alt="worsca" className="main__title__text"></img>
+					</Link>
+				</MainTitle>
+				<MainSearchbar onSubmit={(e) => e.preventDefault()}>
+					<input
+						placeholder="가고싶은 장소를 적어주세요"
+						onChange={(e) => searchValue(e)}
+					/>
+					<button>Q</button>
+				</MainSearchbar>
+				<video autoPlay muted loop>
+					<source src={video} type="video/mp4"></source>
+				</video>
+			</MainpageSection>
+		</>
 	);
 };
 
