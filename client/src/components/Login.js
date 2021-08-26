@@ -51,8 +51,10 @@ const LoginPageSection = styled.div`
 		}
 	}
 	.signup-btn {
-		color: #f5f5f3;
 		background: #38d9a9;
+		.signup-link {
+			color: #f5f5f3;
+		}
 	}
 `;
 
@@ -108,7 +110,11 @@ const Login = () => {
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
 					<button className="btn">LogIn</button>
-					<button className="btn signup-btn">SignUp</button>
+					<button className="btn signup-btn">
+						<Link to="/signup" className="signup-link">
+							SignUp
+						</Link>
+					</button>
 				</div>
 			</LoginBox>
 		</LoginPageSection>
