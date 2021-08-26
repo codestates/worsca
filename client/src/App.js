@@ -49,7 +49,7 @@ function App() {
 					<Mainpage />
 				</Route>
 				<Route exact path="/map"></Route>
-			<Route exact path="/login">
+				<Route exact path="/login">
 					<Login />
 				</Route>
 				<Route exact path="/signup">

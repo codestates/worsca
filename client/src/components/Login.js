@@ -1,111 +1,117 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../img/worsca.png";
+import video from "../video/loginpage.mp4";
 
-const LoginPage = styled.div`
-	height: 100%;
+// ! 스타일
+const LoginPageSection = styled.div`
 	display: flex;
-	flex-direction: column;
+	justify-content: flex-end;
 	align-items: center;
-	text-align: center;
-	margin-top: 25vh;
-	font-size: 1rem;
-
-	input {
-		/* 
-		text-align: left;
-		width: 300px;
-		margin-bottom: 2rem;
-		padding-left: 1rem;
-		&::placeholder {
-			*/
-		font-weight: bold;
-		border-radius: 20px;
-		color: white;
-		font-size: 15px;
-		width: 300px;
-		border: 3px solid;
-		outline: none;
-		border-radius: 0px;
-		line-height: 2.5rem;
-		font-size: 1.2rem;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-	}
-	h1 {
-		text-align: left;
-		color: white;
-	}
-`;
-const Label = styled.div`
-	font-size: 4rem;
-	color: #ffffff;
-	margin: auto;
-`;
-const Button = styled.button`
-	/*
-	padding: 5px;
-	border-radius: 20px;
-	height: 1.5rem;
-	padding-left: 1rem;
-	text-align: center;
-	border: 1px solid #f5f5f3;
-	background: none;
-	cursor: pointer;
-	background-color: #38d9a9;
-	font-size: 13px;
-	 */
-	width: 150px;
-	margin-top: 1rem;
-	padding-top: 0.6rem;
-	padding-bottom: 0.5rem;
-	background: 38d9a9;
-	border-color: #ffffff;
-	color: white;
-	text-align: center;
-	font-size: 1rem;
-	font-weight: 500;
-	cursor: pointer;
-	user-select: none;
-	transition: 0.2s all;
-	&:hover {
-		background: #38d9a9;
-	}
-	&:active {
-		background: #38d9a9;
-	}
-`;
-const ShadowBox = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #38d9a9;
+	width: 100vw;
 	height: 100vh;
-	margin-top: 100px;
-	margin-bottom: 100px;
-	margin-left: 400px;
-	margin-right: 400px;
+	overflow: hidden;
+	margin: 0 auto;
+	position: relative;
+	video {
+		position: fixed;
+		min-width: 100%;
+		min-height: 100%;
+		top: 0;
+		left: 0;
+		width: auto;
+		height: auto;
+		z-index: -1;
+	}
+	input {
+		border: 3px solid #38d9a9;
+		background-color: rgba(255, 255, 255, 0.05);
+		height: 3vh;
+		min-width: 250px;
+		width: 45%;
+		border-radius: 2vh;
+		margin-top: 20px;
+		text-align: center;
+		font-weight: bold;
+		&::placeholder {
+			color: #38d9a9;
+			text-align: center;
+		}
+	}
+	.btn {
+		width: 4rem;
+		height: 2rem;
+		margin: 1rem;
+		border: 3px solid #38d9a9;
+		border-radius: 1.5vh;
+		color: #38d9a9;
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+	.signup-btn {
+		color: #f5f5f3;
+		background: #38d9a9;
+	}
 `;
+
+const LoginBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	width: 65vw;
+	height: 100vh;
+	background: #f5f5f3;
+	.logo-link {
+		margin-bottom: 50px;
+	}
+	img {
+		height: 7rem;
+	}
+	.find-id-pwd {
+		margin-top: 1rem;
+		color: #38d9a9;
+		&:after {
+			display: block;
+			width: 100%;
+			content: "";
+			border-bottom: solid 2px #38d9a9;
+			transform: scaleX(0);
+			transition: transform 250ms ease-in-out;
+		}
+		&:hover:after {
+			transform: scaleX(1);
+		}
+	}
+`;
+
+// ! 핸들러
 const clickButton = (e) => {
 	console.log(e.target.value);
 };
 
 const Login = () => {
 	return (
-		<ShadowBox>
-			<LoginPage>
+		<LoginPageSection>
+			<video autoPlay muted loop>
+				<source src={video} type="video/mp4"></source>
+			</video>
+			<LoginBox>
+				<Link className="logo-link" to="/">
+					<img src={logo} alt="worsca" className="main__title__text"></img>
+				</Link>
+				<input placeholder="이메일을 입력해주세요" type="email" />
+				<input placeholder="비밀번호를 입력해주세요" type="password" />
+				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
-					<Label>워스카</Label>
+					<button className="btn">LogIn</button>
+					<button className="btn signup-btn">SignUp</button>
 				</div>
-				<h1>로그인</h1>
-				<input placeholder="이메일" type="email" />
-				<input placeholder="비밀번호" type="password" />
-				<a>아이디 및 비밀번호찾기</a>
-				<div>
-					<Button>로그인</Button>
-					<Button>회원가입</Button>
-				</div>
-			</LoginPage>
-		</ShadowBox>
+			</LoginBox>
+		</LoginPageSection>
 	);
 };
 
