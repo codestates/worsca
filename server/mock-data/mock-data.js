@@ -21,6 +21,13 @@ const containMockData = (email) => {
 	return finded !== undefined;
 };
 
+const findMockData = (email) => {
+	console.log("받은 이메일" + email);
+	return data.find((user) => {
+		return user.email === email;
+	});
+};
+
 const logData = () => {
 	console.log(data);
 };
@@ -28,5 +35,6 @@ const logData = () => {
 module.exports = {
 	addMockData,
 	containMockData,
+	findMockData,
 	logData,
 };
