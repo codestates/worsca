@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+
+import Signup from "./components/Signup";
+
 import Login from "./components/Login";
 
 const GlobalStyles = createGlobalStyle`
@@ -45,10 +48,12 @@ function App() {
 			<Switch>
 				<Route exact path="/"></Route>
 				<Route exact path="/map"></Route>
-				<Route exact path="/login">
+			<Route exact path="/login">
 					<Login />
 				</Route>
-				<Route exact path="/signup"></Route>
+				<Route exact path="/signup">
+					<Signup />
+				</Route>
 			</Switch>
 		</Router>
 	);
