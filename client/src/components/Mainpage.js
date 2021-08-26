@@ -72,7 +72,7 @@ const searchValue = (e) => {
 	console.log(e.target.value);
 };
 
-function Mainpage() {
+const Mainpage = () => {
 	return (
 		<MainpageSection>
 			<MainTitle>
@@ -92,6 +92,6 @@ function Mainpage() {
 			</video>
 		</MainpageSection>
 	);
-}
+};
 
 export default Mainpage;
