@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import Mainpage from "./components/Mainpage";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Map from "./components/Map";
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -48,8 +49,10 @@ function App() {
 				<Route exact path="/">
 					<Mainpage />
 				</Route>
-				<Route exact path="/map"></Route>
-			<Route exact path="/login">
+				<Route exact path="/map">
+					<Map />
+				</Route>
+				<Route exact path="/login">
 					<Login />
 				</Route>
 				<Route exact path="/signup">
