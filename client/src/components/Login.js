@@ -1,8 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
+
 
 // ! 스타일
 const LoginPageSection = styled.div`
@@ -33,6 +35,7 @@ const LoginPageSection = styled.div`
 		border-radius: 2vh;
 		margin-top: 20px;
 		text-align: center;
+
 		font-weight: bold;
 		&::placeholder {
 			color: #38d9a9;
@@ -50,6 +53,9 @@ const LoginPageSection = styled.div`
 			transform: scale(1.1);
 		}
 	}
+
+
+
 	.signup-btn {
 		background: #38d9a9;
 		.signup-link {
@@ -90,12 +96,36 @@ const LoginBox = styled.div`
 	}
 `;
 
+
+
 // ! 핸들러
 const clickButton = (e) => {
 	console.log(e.target.value);
 };
 
+
 const Login = () => {
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+	axios
+		.post("https://localhost:3000/login", loginInfo, {
+			withCredentials: true,
+		})
+		.then((el) => console.log("콘솔"));
+	const [errorMessage, setErrorMessage] = useState("");
+	const onClickLogin = (key) => (e) => {
+		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	};
+
+	const clickLogin = () => {
+		if (!loginInfo.email || !loginInfo.password) {
+			alert("이메일과 비밀번호를 입력하세요");
+			setErrorMessage("이메일과 비밀번호를 입력하세요");
+			return;
+		}
+	};
 	return (
 		<LoginPageSection>
 			<video autoPlay muted loop>
