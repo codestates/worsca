@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
 

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Modal from "./Modal";
 
 const LoginPage = styled.div`
 	height: 100%;
@@ -11,13 +14,6 @@ const LoginPage = styled.div`
 	font-size: 1rem;
 
 	input {
-		/* 
-		text-align: left;
-		width: 300px;
-		margin-bottom: 2rem;
-		padding-left: 1rem;
-		&::placeholder {
-			*/
 		font-weight: bold;
 		border-radius: 20px;
 		color: white;
@@ -39,21 +35,10 @@ const LoginPage = styled.div`
 const Label = styled.div`
 	font-size: 4rem;
 	color: #ffffff;
-	margin: auto;
+	/* margin: auto;
+	text-decoration: none; */
 `;
 const Button = styled.button`
-	/*
-	padding: 5px;
-	border-radius: 20px;
-	height: 1.5rem;
-	padding-left: 1rem;
-	text-align: center;
-	border: 1px solid #f5f5f3;
-	background: none;
-	cursor: pointer;
-	background-color: #38d9a9;
-	font-size: 13px;
-	 */
 	width: 150px;
 	margin-top: 1rem;
 	padding-top: 0.6rem;
@@ -67,6 +52,7 @@ const Button = styled.button`
 	cursor: pointer;
 	user-select: none;
 	transition: 0.2s all;
+	/* text-decoration: none;  */
 	&:hover {
 		background: #38d9a9;
 	}
@@ -85,25 +71,48 @@ const ShadowBox = styled.div`
 	margin-left: 400px;
 	margin-right: 400px;
 `;
-const clickButton = (e) => {
-	console.log(e.target.value);
-};
-
 const Login = () => {
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+	axios
+		.post("https://localhost:3000/login", loginInfo, {
+			withCredentials: true,
+		})
+		.then((el) => console.log("콘솔"));
+	const [errorMessage, setErrorMessage] = useState("");
+	const onClickLogin = (key) => (e) => {
+		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	};
+
+	const clickLogin = () => {
+		if (!loginInfo.email || !loginInfo.password) {
+			alert("이메일과 비밀번호를 입력하세요");
+			setErrorMessage("이메일과 비밀번호를 입력하세요");
+			return;
+		}
+	};
 	return (
 		<ShadowBox>
 			<LoginPage>
 				<div>
-					<Label>워스카</Label>
+					<form onSubmit={(e) => e.preventDefault()}>
+						<Label>
+							<Link to="/">워스카</Link>
+						</Label>
+					</form>
 				</div>
 				<h1>로그인</h1>
-				<input placeholder="이메일" type="email" />
-				<input placeholder="비밀번호" type="password" />
-				<a>아이디 및 비밀번호찾기</a>
+				<input placeholder="이메일" type="email" onChange={onClickLogin} />
+				<input placeholder="비밀번호" type="password" onChange={onClickLogin} />
 				<div>
-					<Button>로그인</Button>
-					<Button>회원가입</Button>
+					<Button onClick={clickLogin}>로그인</Button>
+					<Button>
+						<Link to="/signup">회원가입</Link>
+					</Button>
 				</div>
+				<div className="alert-box">{errorMessage}</div>
 			</LoginPage>
 		</ShadowBox>
 	);
