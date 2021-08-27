@@ -54,9 +54,9 @@ const MainSearchbar = styled.form`
 		margin-left: 16px;
 		border: none;
 		width: 80%;
-		color: #38d9a9;
+		color: #f5f5f3;
 		font-weight: bold;
-		font-size: 18;
+		font-size: 18px;
 		&::placeholder {
 			color: #f5f5f3;
 			font-weight: bold;
@@ -67,7 +67,7 @@ const MainSearchbar = styled.form`
 		border: none;
 		background: none;
 		margin-right: 24px;
-		color: #38d9a9;
+		color: #f5f5f3;
 		font-size: 22px;
 	}
 `;
