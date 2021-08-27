@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 //FORM
@@ -37,6 +38,32 @@ const Form = styled.form`
 `;
 
 const Signup = () => {
+	const [userInfo, setUserInfo] = useState({
+		email: "",
+		usernanme: "",
+		password: "",
+	});
+	const [errorMessage, setErrorMessage] = useState("");
+	const history = useHistory();
+	const handleInputValue = (key) => (e) => {
+		setUserInfo({ ...userInfo, [key]: e.target.value });
+	};
+	const handleSignup = () => {
+		const { email, username, password } = userInfo;
+
+		// 빈칸 유효성 검사
+		if (!username || !email || !password) {
+			return setErrorMessage("모든 항목은 필수 입니다");
+		}
+		// 비밀번호 / 비밀번호 확인 동일검사
+		// 1 . password_re 만들어서 일치 불일치 확인
+		// 2 . input창에 password가 불일치할때 false
+
+		axios.post("https://localhost:4000/signup", userInfo).then((res) => {
+			console.log("성공했습니다.");
+		});
+	};
+
 	return (
 		<Form>
 			<h1>Welcome!</h1>
