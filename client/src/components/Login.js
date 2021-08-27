@@ -94,27 +94,33 @@ const Login = () => {
 		}
 	};
 	return (
-		<ShadowBox>
-			<LoginPage>
-				<div>
-					<form onSubmit={(e) => e.preventDefault()}>
-						<Label>
-							<Link to="/">워스카</Link>
-						</Label>
-					</form>
-				</div>
-				<h1>로그인</h1>
-				<input placeholder="이메일" type="email" onChange={onClickLogin} />
-				<input placeholder="비밀번호" type="password" onChange={onClickLogin} />
-				<div>
-					<Button onClick={clickLogin}>로그인</Button>
-					<Button>
-						<Link to="/signup">회원가입</Link>
-					</Button>
-				</div>
-				<div className="alert-box">{errorMessage}</div>
-			</LoginPage>
-		</ShadowBox>
+		<>
+			<ShadowBox>
+				<LoginPage>
+					<div>
+						<form onSubmit={(e) => e.preventDefault()}>
+							<Label>
+								<Link to="/">워스카</Link>
+							</Label>
+						</form>
+					</div>
+					<h1>로그인</h1>
+					<input placeholder="이메일" type="email" onChange={onClickLogin} />
+					<input
+						placeholder="비밀번호"
+						type="password"
+						onChange={onClickLogin}
+					/>
+					<div>
+						<Button onClick={clickLogin}>로그인</Button>
+						<Button>
+							<Link to="/signup">회원가입</Link>
+						</Button>
+					</div>
+					<div className="alert-box">{errorMessage}</div>
+				</LoginPage>
+			</ShadowBox>
+		</>
 	);
 };
 
