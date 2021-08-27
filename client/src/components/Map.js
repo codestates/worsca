@@ -7,6 +7,8 @@ import hamburger from "../img/hamburger.png";
 import Cafepage from "./Cafepage";
 import Modal from "react-modal";
 import CafeModal from "./CafeModal";
+import Mapping from "./Mapping";
+import Mypage from "./Mypage";
 
 const MapSection = styled.div`
 	display: flex;
@@ -27,6 +29,7 @@ const Nav = styled.div`
 	padding: 0.5rem;
 	background: #f5f5f3;
 	border: 1px solid #38d9a9;
+	z-index: 1;
 	.logo {
 		display: flex;
 		justify-content: flex-start;
@@ -46,6 +49,7 @@ const SearchBox = styled.form`
 	display: flex;
 	justify-content: space-between;
 	box-sizing: border-box;
+	z-index: 1;
 	input {
 		background-color: rgba(0, 0, 0, 0);
 		margin-left: 16px;
@@ -74,38 +78,39 @@ const NavBtn = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
 	img {
 		height: 3rem;
 	}
 `;
 
-const MapBox = styled.div`
-	position: fixed;
-	min-width: 100%;
-	min-height: 100%;
-	top: 0;
-	left: 0;
-	width: auto;
-	height: auto;
-	z-index: -1;
-	img {
-		position: fixed;
-		min-width: 100%;
-		min-height: 100%;
-		top: 0;
-		left: 0;
-		width: auto;
-		height: auto;
-		z-index: -1;
-	}
-`;
+// const MapBox = styled.div`
+// 	position: fixed;
+// 	min-width: 100%;
+// 	min-height: 100%;
+// 	top: 0;
+// 	left: 0;
+// 	width: auto;
+// 	height: auto;
+// 	/* z-index: -1; */
+// 	img {
+// 		position: fixed;
+// 		min-width: 100%;
+// 		min-height: 100%;
+// 		top: 0;
+// 		left: 0;
+// 		width: auto;
+// 		height: auto;
+// 		z-index: -1;
+// 	}
+// `;
 
 const CafeBox = styled.div`
 	display: flex;
-	/* z-index: 99; */
 	margin-top: auto;
 	width: 100vw;
 	overflow-x: auto;
+	z-index: 1;
 	-ms-overflow-style: none;
 	&::-webkit-scrollbar {
 		display: none;
@@ -114,20 +119,86 @@ const CafeBox = styled.div`
 
 const Map = () => {
 	const [boo, setBoo] = useState(false);
+	const [mypage, setMypage] = useState(false);
 
 	// handler
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
 
+	const mypageToggle = () => {
+		setMypage(!mypage);
+	};
+
 	return (
 		<MapSection>
-			<Modal isOpen={boo} onRequestClose={() => reverseBoo()}>
+			<Modal
+				isOpen={boo}
+				style={{
+					overlay: {
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "rgba(255, 255, 255, 0.75)",
+						zIndex: 2,
+					},
+					content: {
+						position: "absolute",
+						top: "80px",
+						left: "80px",
+						right: "80px",
+						bottom: "80px",
+						border: "1px solid #ccc",
+						background: "#fff",
+						overflow: "auto",
+						WebkitOverflowScrolling: "touch",
+						borderRadius: "4px",
+						outline: "none",
+						padding: "20px",
+						zIndex: 2,
+					},
+				}}
+				onRequestClose={() => reverseBoo()}
+			>
 				<CafeModal reverseBoo={reverseBoo}></CafeModal>
 			</Modal>
-			<MapBox>
-				<img src={mapImg} alt="map"></img>
-			</MapBox>
+			<Modal
+				isOpen={mypage}
+				style={{
+					overlay: {
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						backgroundColor: "none",
+						zIndex: 2,
+					},
+					content: {
+						position: "absolute",
+						minWidth: "400px",
+						top: "60px",
+						left: "75vw",
+						right: "10px",
+						bottom: "210px",
+						border: "1px solid #ccc",
+						background: "#fff",
+						overflow: "auto",
+						WebkitOverflowScrolling: "touch",
+						borderRadius: "4px",
+						outline: "none",
+						padding: "0",
+						zIndex: 2,
+					},
+				}}
+				onRequestClose={() => mypageToggle()}
+			>
+				<Mypage />
+			</Modal>
+			{/* <MapBox><img src={mapImg} alt="map"></img></MapBox> */}
+			<Mapping />
 			<Nav>
 				<Link className="logo" to="/">
 					<img src={logo} alt="worsca"></img>
@@ -137,7 +208,7 @@ const Map = () => {
 						<input placeholder="검색" />
 						<button>Q</button>
 					</SearchBox>
-					<img src={hamburger} alt="worsca"></img>
+					<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
 				</NavBtn>
 			</Nav>
 			<CafeBox>
