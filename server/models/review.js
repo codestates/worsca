@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "user_email",
 				targetKey: "email",
 			});
-			models.Review.belongsTo(models.Stroe, {
+			models.Review.belongsTo(models.Store, {
 				foreignKey: "store_id",
 				targetKey: "store_id",
 			});
