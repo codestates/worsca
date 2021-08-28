@@ -11,6 +11,9 @@ const getMypageInfo = async (req, res) => {
 		include: [
 			{
 				model: db.Store,
+				attributes: {
+					exclude: ["owner_id"],
+				},
 				through: {
 					attributes: [],
 				},
