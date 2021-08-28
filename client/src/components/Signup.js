@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import logo from "../img/signup.png";
+import axios from "axios";
 
 const SignupSection = styled.div`
 	display: flex;
@@ -79,7 +80,7 @@ const SignupBtn = styled.div`
 const Signup = () => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
-		usernanme: "",
+		nickname: "",
 		password: "",
 	});
 	const [errorMessage, setErrorMessage] = useState("");
@@ -87,19 +88,23 @@ const Signup = () => {
 	const handleInputValue = (key) => (e) => {
 		setUserInfo({ ...userInfo, [key]: e.target.value });
 	};
-	const handleSignup = () => {
+	const handleSignup = (e) => {
 		const { email, username, password } = userInfo;
 
 		// 빈칸 유효성 검사
-		if (!username || !email || !password) {
-			return setErrorMessage("모든 항목은 필수 입니다");
-		}
+		// if (!username || !email || !password) {
+		// 	setErrorMessage("모든 항목은 필수 입니다");
+		// 	return;
+		// }
+
 		// 비밀번호 / 비밀번호 확인 동일검사
 		// 1 . password_re 만들어서 일치 불일치 확인
 		// 2 . input창에 password가 불일치할때 false
 
-		axios.post("http://210.205.235.71/users/signup", userInfo).then((res) => {
-			console.log("성공했습니다.");
+		axios.post("http://210.205.235.71/users/signup", userInfo).then(() => {
+			alert("회원가입 되었습니다! 로그인 해주세요.").then(() => {
+				return history.push("/Login");
+			});
 		});
 	};
 
@@ -114,24 +119,38 @@ const Signup = () => {
 				<h1>Welcome!</h1>
 				<br />
 				<h3>이메일</h3>
-				<input placeholder="이메일을 입력해주세요" type="email" />
+				<input
+					placeholder="이메일을 입력해주세요"
+					type="email"
+					onChange={handleInputValue("email")}
+				/>
 
 				<h3>닉네임</h3>
-				<input placeholder="닉네임을 입력해주세요" type="name" />
+				<input
+					placeholder="닉네임을 입력해주세요"
+					type="name"
+					onChange={handleInputValue("nickname")}
+				/>
 
 				<h3>비밀번호</h3>
-				<input placeholder="비밀번호를 입력해주세요" type="password" />
+				<input
+					placeholder="비밀번호를 입력해주세요"
+					type="password"
+					onChange={handleInputValue("password")}
+				/>
 
 				<h3>비밀번호 확인</h3>
 				<input
 					placeholder="다시 한번 비밀번호를 입력해주세요"
 					type="password"
+					onChange={handleInputValue("password")}
 				/>
 				<br />
 				<SignupBtn>
 					{/* <button className="btn signup_google_btn">Google</button>
 					<button className="btn signup_naver_btn">Naver</button> */}
-					<button className="btn" type="submit">
+
+					<button className="btn" type="submit" onClick={handleSignup}>
 						회원 가입
 					</button>
 				</SignupBtn>
