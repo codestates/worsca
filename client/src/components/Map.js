@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/worsca.png";
-import mapImg from "../img/map.png";
 import hamburger from "../img/hamburger.png";
 import Cafepage from "./Cafepage";
 import Modal from "react-modal";
@@ -117,9 +116,13 @@ const CafeBox = styled.div`
 	}
 `;
 
+// map되는지 테스트용 배열
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const Map = () => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
+	const [login, setLogin] = useState(false);
 
 	// handler
 	const reverseBoo = () => {
@@ -197,7 +200,6 @@ const Map = () => {
 			>
 				<Mypage />
 			</Modal>
-			{/* <MapBox><img src={mapImg} alt="map"></img></MapBox> */}
 			<Mapping />
 			<Nav>
 				<Link className="logo" to="/">
@@ -208,19 +210,17 @@ const Map = () => {
 						<input placeholder="검색" />
 						<button>Q</button>
 					</SearchBox>
-					<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
+					{!login ? (
+						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
+					) : (
+						<Redirect to="/login" />
+					)}
 				</NavBtn>
 			</Nav>
 			<CafeBox>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
-				<Cafepage reverseBoo={reverseBoo}></Cafepage>
+				{arr.map((el) => {
+					return <Cafepage reverseBoo={reverseBoo}></Cafepage>;
+				})}
 			</CafeBox>
 		</MapSection>
 	);

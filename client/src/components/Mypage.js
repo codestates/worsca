@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Cafepage from "./Cafepage";
 import deleteBtn from "../img/delete.png";
@@ -52,56 +52,36 @@ const FavoriteBox = styled.div`
 	}
 `;
 
+// map되는지 테스트용 배열
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const Mypage = () => {
+	const [email, setEmail] = useState("codestate@gmail.com");
+	const [nickname, setNickname] = useState("Kim coding");
+
 	return (
 		<MypageSection>
 			<UserBox>
 				<div className="direction">
 					<div className="title">email: </div>
-					<div>codestate@gmail.com</div>
+					<div>{email}</div>
 				</div>
 				<div className="direction">
 					<div className="title">nickname: </div>
-					<div>Kim coding</div>
+					<div>{nickname}</div>
 				</div>
 			</UserBox>
 			{/* FavoriteBox.map으로 뿌려줄거 */}
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
-			<FavoriteBox>
-				<Cafepage />
-				<div className="deleteBtn">
-					<img src={deleteBtn} alt="deleteBtn"></img>
-				</div>
-			</FavoriteBox>
+			{arr.map((el) => {
+				return (
+					<FavoriteBox>
+						<Cafepage className={el} />
+						<div className="deleteBtn">
+							<img src={deleteBtn} alt="deleteBtn"></img>
+						</div>
+					</FavoriteBox>
+				);
+			})}
 		</MypageSection>
 	);
 };

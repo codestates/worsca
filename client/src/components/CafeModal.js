@@ -74,7 +74,6 @@ const CafeSectionMenu = styled.div`
 		height: 18rem;
 		padding: 0;
 		box-sizing: border-box;
-		margin-bottom: 2rem;
 		overflow-x: auto;
 		border: 3px solid #38d9a9;
 		-ms-overflow-style: none;
@@ -85,6 +84,18 @@ const CafeSectionMenu = styled.div`
 	img {
 		width: 100%;
 		height: 100%;
+	}
+
+	.hashtag {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 0.6rem;
+		margin-bottom: 2rem;
+		li {
+			font-weight: bold;
+			margin-left: 4px;
+			color: #2482a3;
+		}
 	}
 
 	.ratingBox {
@@ -168,6 +179,10 @@ const CafeModal = ({ reverseBoo }) => {
 						<img src={coffee1} alt="coffee1"></img>
 						<img src={coffee2} alt="coffee2"></img>
 					</div>
+					<ul className="hashtag">
+						<li>#강남카페맛집</li>
+						<li>#스터디</li>
+					</ul>
 					<div className="sub_title">리뷰</div>
 					<div className="ratingBox">
 						<div className="ratingTitle">평점</div>
