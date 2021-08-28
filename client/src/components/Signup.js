@@ -1,5 +1,5 @@
-
 import React, { useState } from "react";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -98,7 +98,7 @@ const Signup = () => {
 		// 2 . input창에 password가 불일치할때 false
 
 		axios.post("https://localhost:4000/signup", userInfo).then((res) => {
-			console.log("성공했습니다.");
+			console.log(res.data);
 		});
 	};
 
