@@ -12,15 +12,26 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "owner_id",
 				targetKey: "id",
 			});
+
 			models.Store.hasMany(models.Review, {
 				foreignKey: "store_id",
 				sourceKey: "store_id",
+			});
+
+			models.Store.belongsToMany(models.User, {
+				through: models.Bookmark,
+				foreignKey: "store_id",
+				otherKey: "id",
 			});
 		}
 	}
 	Store.init(
 		{
-			store_id: DataTypes.INTEGER,
+			store_id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				allowNull: false,
+			},
 			owner_id: DataTypes.INTEGER,
 			total_rating: DataTypes.INTEGER,
 			total_decibel: DataTypes.INTEGER,
