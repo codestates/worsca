@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
-
+import CafeAuto from "../components/CafeAuto";
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -113,13 +113,17 @@ const Mainpage = () => {
 						<img src={logo} alt="worsca" className="main__title__text"></img>
 					</Link>
 				</MainTitle>
-				<MainSearchbar onSubmit={(e) => e.preventDefault()}>
-					<input
-						placeholder="가고싶은 장소를 적어주세요"
-						onChange={(e) => searchValue(e)}
-					/>
-					<button>Q</button>
-				</MainSearchbar>
+				{/* <Link> */}
+				<CafeAuto>
+					<MainSearchbar onSubmit={(e) => e.preventDefault()}>
+						<input
+							placeholder="가고싶은 장소를 적어주세요"
+							onChange={(e) => searchValue(e)}
+						/>
+						<button>Q</button>
+					</MainSearchbar>
+				</CafeAuto>
+				{/* </Link> */}
 				<video autoPlay muted loop>
 					<source src={video} type="video/mp4"></source>
 				</video>

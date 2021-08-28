@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
+
 import styled from "styled-components";
 import logo from "../img/worsca.png";
 import hamburger from "../img/hamburger.png";
@@ -8,6 +9,8 @@ import Modal from "react-modal";
 import CafeModal from "./CafeModal";
 import Mapping from "./Mapping";
 import Mypage from "./Mypage";
+import CafeAuto from "./CafeAuto";
+
 
 const MapSection = styled.div`
 	display: flex;
@@ -82,27 +85,6 @@ const NavBtn = styled.div`
 		height: 3rem;
 	}
 `;
-
-// const MapBox = styled.div`
-// 	position: fixed;
-// 	min-width: 100%;
-// 	min-height: 100%;
-// 	top: 0;
-// 	left: 0;
-// 	width: auto;
-// 	height: auto;
-// 	/* z-index: -1; */
-// 	img {
-// 		position: fixed;
-// 		min-width: 100%;
-// 		min-height: 100%;
-// 		top: 0;
-// 		left: 0;
-// 		width: auto;
-// 		height: auto;
-// 		z-index: -1;
-// 	}
-// `;
 
 const CafeBox = styled.div`
 	display: flex;
@@ -200,6 +182,7 @@ const Map = () => {
 			>
 				<Mypage />
 			</Modal>
+
 			<Mapping />
 			<Nav>
 				<Link className="logo" to="/">

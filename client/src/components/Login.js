@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
 
-
 // ! 스타일
 const LoginPageSection = styled.div`
 	display: flex;
@@ -53,8 +52,9 @@ const LoginPageSection = styled.div`
 			transform: scale(1.1);
 		}
 	}
-
-
+	.alert-box {
+		color: red;
+	}
 
 	.signup-btn {
 		background: #38d9a9;
@@ -64,7 +64,7 @@ const LoginPageSection = styled.div`
 	}
 `;
 
-const LoginBox = styled.div`
+const LoginBox = styled.form`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -96,55 +96,60 @@ const LoginBox = styled.div`
 	}
 `;
 
-
-
-// ! 핸들러
-const clickButton = (e) => {
-	console.log(e.target.value);
-};
-
-
 const Login = () => {
 	const [loginInfo, setLoginInfo] = useState({
 		email: "",
 		password: "",
 	});
-	axios
-		.post("https://localhost:3000/login", loginInfo, {
-			withCredentials: true,
-		})
-		.then((el) => console.log("콘솔"));
 	const [errorMessage, setErrorMessage] = useState("");
+
 	const onClickLogin = (key) => (e) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
 	};
 
-	const clickLogin = () => {
+	const signUp = () => {
+		axios
+			.post("http://210.205.235.71/users/signin", loginInfo, {
+				// withCredentials: true,
+			})
+			.then((el) => console.log(el));
 		if (!loginInfo.email || !loginInfo.password) {
-			alert("이메일과 비밀번호를 입력하세요");
 			setErrorMessage("이메일과 비밀번호를 입력하세요");
 			return;
 		}
 	};
+
+	// const clickLogin = () => {};
 	return (
 		<LoginPageSection>
 			<video autoPlay muted loop>
 				<source src={video} type="video/mp4"></source>
 			</video>
-			<LoginBox>
+			<LoginBox onSubmit={(e) => e.preventDefault()}>
 				<Link className="logo-link" to="/">
 					<img src={logo} alt="worsca" className="main__title__text"></img>
 				</Link>
-				<input placeholder="이메일을 입력해주세요" type="email" />
-				<input placeholder="비밀번호를 입력해주세요" type="password" />
+				<input
+					placeholder="이메일을 입력해주세요"
+					type="email"
+					onChange={onClickLogin("email")}
+				/>
+				<input
+					placeholder="비밀번호를 입력해주세요"
+					type="password"
+					onChange={onClickLogin("password")}
+				/>
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
-					<button className="btn">LogIn</button>
+					<button className="btn" onClick={signUp}>
+						LogIn
+					</button>
 					<button className="btn signup-btn">
 						<Link to="/signup" className="signup-link">
 							SignUp
 						</Link>
 					</button>
+					<div className="alert-box">{errorMessage}</div>
 				</div>
 			</LoginBox>
 		</LoginPageSection>
