@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 import logo from "../img/signup.png";
 
 const SignupSection = styled.div`
@@ -97,8 +98,8 @@ const Signup = () => {
 		// 1 . password_re 만들어서 일치 불일치 확인
 		// 2 . input창에 password가 불일치할때 false
 
-		axios.post("https://localhost:4000/signup", userInfo).then((res) => {
-			console.log(res.data);
+		axios.post("http://210.205.235.71/users/signup", userInfo).then((res) => {
+			console.log("성공했습니다.");
 		});
 	};
 
