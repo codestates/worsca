@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			models.User.hasMany(models.Review, {
-				foreignKey: 'user_id',
-        sourceKey: 'id'
-      });
-      
+				foreignKey: "user_email",
+				sourceKey: "email",
+			});
+
 			models.User.hasMany(models.Store, {
-				foreignKey: 'owner_id',
-				sourceKey: 'id'
+				foreignKey: "owner_id",
+				sourceKey: "id",
 			});
 		}
 	}
