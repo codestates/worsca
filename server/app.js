@@ -21,13 +21,6 @@ app.get("/", (req, res) => {
 	res.send("hello, world");
 });
 
-app.use((err, req, res, next) => {
-	console.error(err);
-	res.status(500).json({
-		message: "Error In Server",
-	});
-});
-
 app.listen(8080, () => {
 	console.log("서버 시작");
 });

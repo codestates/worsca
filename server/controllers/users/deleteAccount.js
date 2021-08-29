@@ -1,31 +1,49 @@
 const db = require("../../models");
-const { validateBody } = require("../../util/validation");
-const { sendBadRequest, sendNotFoundUser, sendNotMatchPassword } = require("../../util/response");
 
-const deleteAccount = async (req, res, next) => {
+const sendBadRequest = (res) => {
+	res.status(400).json({
+		message: "-임시- 잘못된 요청",
+	});
+};
+
+const deleteAccount = async (req, res) => {
 	try {
-		if( !validateBody(req.body, 'email', 'password')) {
+		//유효성 검사
+		const requirementKey = ["email", "password"];
+		const bodyKeys = Object.keys(req.body);
+		if (bodyKeys.length !== requirementKey.length) {
 			return sendBadRequest(res);
+		}
+
+		for (let i = 0; i < requirementKey.length; i++) {
+			if (req.body[requirementKey[i]] === undefined) {
+				return sendBadRequest(res);
+			}
 		}
 
 		const { email, password } = req.body;
 		const user = await db.User.findOne({ where: { email } });
-		
+
 		if (user === undefined || user === null) {
-			return sendNotFoundUser(res);
+			return res.status(401).json({
+				message: "-임시- 해당 유저 존재하지 않음",
+			});
 		}
 
 		if (user.password !== password) {
-			return sendNotMatchPassword(res);
+			return res.status(401).json({
+				message: "-임시- 비밀번호가 일치하지 않음",
+			});
 		}
 
 		await user.destroy();
 		res.status(201).json({
-			message: "회원탈퇴가 완료되었습니다.",
+			message: "-임시- 삭제 완료",
 		});
-
 	} catch (err) {
-		next(err);
+		res.status(500).json({
+			message: "error in server",
+		});
 	}
 };
 
