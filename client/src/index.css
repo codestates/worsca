@@ -1,13 +1,47 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+} */
+.App {
+	margin: 1rem;
+}
+
+.App .inputForm {
+	margin: 2rem;
+}
+
+.App > div {
+	display: flex;
+	width: 100%;
+}
+
+.App #result-list {
+	width: 60%;
+	height: 500px;
+	overflow: auto;
+}
+
+.App #pagination {
+	margin-top: 3rem;
+}
+
+.App #pagination a {
+	color: black;
+	font-size: 20px;
+	text-decoration: none;
+	margin: 0 10px;
+}
+
+.App #pagination a.on {
+	color: lightblue;
+	font-weight: bold;
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-
 import styled from "styled-components";
 import logo from "../img/worsca.png";
 import hamburger from "../img/hamburger.png";
@@ -10,7 +9,6 @@ import CafeModal from "./CafeModal";
 import Mapping from "./Mapping";
 import Mypage from "./Mypage";
 import CafeAuto from "./CafeAuto";
-
 
 const MapSection = styled.div`
 	display: flex;
@@ -182,17 +180,19 @@ const Map = () => {
 			>
 				<Mypage />
 			</Modal>
-
 			<Mapping />
 			<Nav>
 				<Link className="logo" to="/">
 					<img src={logo} alt="worsca"></img>
 				</Link>
 				<NavBtn>
-					<SearchBox>
-						<input placeholder="검색" />
-						<button>Q</button>
-					</SearchBox>
+					<CafeAuto>
+						<SearchBox>
+							<input placeholder="검색" />
+							<button>Q</button>
+						</SearchBox>
+					</CafeAuto>
+
 					{!login ? (
 						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
 					) : (

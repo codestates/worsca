@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-// import CafeAuto from "./components/CafeAuto";
+// import Kakao from "./components/Kakao";
 
 ReactDOM.render(
 	<React.StrictMode>
 		<App />
-		{/* <CafeAuto /> */}
+		{/* <Kakao /> */}
 	</React.StrictMode>,
 	document.getElementById("root")
 );

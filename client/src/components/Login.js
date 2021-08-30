@@ -118,8 +118,6 @@ const Login = () => {
 			return;
 		}
 	};
-
-	// const clickLogin = () => {};
 	return (
 		<LoginPageSection>
 			<video autoPlay muted loop>
