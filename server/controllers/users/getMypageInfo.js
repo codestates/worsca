@@ -2,14 +2,14 @@ const db = require("../../models");
 const { sendBadRequest, sendNotFoundUser } = require("../../util/response");
 
 const getMypageInfo = async (req, res, next) => {
-	try{
+	try {
 		const { email } = req.params;
 
-		if( email === undefined || email === null) {
+		if (email === undefined || email === null) {
 			return sendBadRequest(res);
 		}
 
-		// Authriztion 검사
+		// Authorization 검사
 
 		//user 찾기
 		const user = await db.User.findOne({
@@ -35,18 +35,17 @@ const getMypageInfo = async (req, res, next) => {
 		if (user === undefined || user === null) {
 			return sendNotFoundUser(res);
 		}
-		
+
 		//200 OK
-		res.status(200).json({ 
+		res.status(200).json({
 			email: user.email,
 			nickname: user.nickname,
 			reviews: user.Reviews,
 			bookmarks: user.Stores,
 		});
-	} catch(err) {
+	} catch (err) {
 		next(err);
 	}
-	
 };
 
 module.exports = getMypageInfo;

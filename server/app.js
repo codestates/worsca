@@ -1,7 +1,8 @@
 const express = require("express");
 
 //import router
-const signupRouter = require("./routes/users");
+const usersRouter = require("./routes/users");
+const storesRouter = require("./routes/stores");
 
 const app = express();
 
@@ -12,10 +13,12 @@ app.use((req, res, next) => {
 	console.log(req.method, req.url);
 	console.log(req.body);
 	console.log("-----------------------");
+	console.log();
 	next();
 });
 
-app.use("/users", signupRouter);
+app.use("/users", usersRouter);
+app.use("/stores", storesRouter);
 
 app.get("/", (req, res) => {
 	res.send("hello, world");
