@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
 import CafeAuto from "../components/CafeAuto";
@@ -99,7 +99,17 @@ const searchValue = (e) => {
 	console.log(e.target.value);
 };
 
+// 메인 인풋창에 value를 상태로 관리해야한다.
+// 인풋창이 submit하면 => map창으로 이동
+// 인풋창의 value를 map.js에서 결과값으로 가져온다.
+
 const Mainpage = () => {
+	const history = useHistory();
+
+	const InputSubmit = () => {
+		return history.push("/map");
+	};
+
 	return (
 		<>
 			<BtnBox>
@@ -115,7 +125,7 @@ const Mainpage = () => {
 				</MainTitle>
 				{/* <Link> */}
 				<CafeAuto>
-					<MainSearchbar onSubmit={(e) => e.preventDefault()}>
+					<MainSearchbar>
 						<input
 							placeholder="가고싶은 장소를 적어주세요"
 							onChange={(e) => searchValue(e)}

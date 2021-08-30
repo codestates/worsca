@@ -10,7 +10,7 @@ import CafeModal from "./CafeModal";
 import Mapping from "./Mapping";
 import Mypage from "./Mypage";
 import CafeAuto from "./CafeAuto";
-
+import Can from "./Can";
 
 const MapSection = styled.div`
 	display: flex;
@@ -106,6 +106,19 @@ const Map = () => {
 	const [mypage, setMypage] = useState(false);
 	const [login, setLogin] = useState(false);
 
+	const [InputText, setInputText] = useState("");
+	const [Place, setPlace] = useState("");
+
+	const onChange = (e) => {
+		setInputText(e.target.value);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setPlace(InputText);
+		setInputText("");
+	};
+
 	// handler
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -183,15 +196,14 @@ const Map = () => {
 				<Mypage />
 			</Modal>
 
-			<Mapping />
+			<Can searchPlace={Place} />
 			<Nav>
 				<Link className="logo" to="/">
 					<img src={logo} alt="worsca"></img>
 				</Link>
 				<NavBtn>
-					<SearchBox>
-						<input placeholder="검색" />
-						<button>Q</button>
+					<SearchBox className="inputForm" onSubmit={handleSubmit}>
+						<input placeholder="검색" onChange={onChange} value={InputText} />
 					</SearchBox>
 					{!login ? (
 						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
