@@ -1,25 +1,12 @@
 const db = require("../../models");
+const { validateBody } = require("../../util/validation");
+const { sendBadRequest } = require("../../util/response");
 
-const sendBadRequest = (res) => {
-	res.status(400).json({
-		message: "-임시- 잘못된 요청",
-	});
-};
-
-const signUp = async (req, res) => {
+const signUp = async (req, res, next) => {
 	try {
-		//유효성 검사
-		const requirementKey = ["email", "password", "nickname"];
-		const bodyKeys = Object.keys(req.body);
-		if (bodyKeys.length !== requirementKey.length) {
+		if( !validateBody(req.body, "email", "password", "nickname") ){
 			return sendBadRequest(res);
-		}
-
-		for (let i = 0; i < requirementKey.length; i++) {
-			if (req.body[requirementKey[i]] === undefined) {
-				return sendBadRequest(res);
-			}
-		}
+		};
 
 		//db에 추가
 		const { email, password, nickname } = req.body;
@@ -30,7 +17,7 @@ const signUp = async (req, res) => {
 				email: newUser.email,
 				nickname: newUser.nickname,
 			},
-			message: "-임시- 회원가입 성공",
+			message: "회원가입에 성공했습니다.",
 		});
 	} catch (err) {
 		//이메일 중복
@@ -38,29 +25,14 @@ const signUp = async (req, res) => {
 			const { type } = err.errors[0];
 			if (type === "unique violation") {
 				return res.status(409).json({
-					message: "-임시- 이메일 중복",
+					message: "동일한 이메일을 가지고있는 유저가 있습니다.",
 				});
 			}
 		}
-		res.status(500).json({
-			message: "error in server",
-		});
+		
+		//500 서버 에러
+		next(err);
 	}
-
-	// DB 이메일 중복 검사
-	// if (containMockData(email)) {
-	// 	logData();
-	// 	return res.status(409).json({
-	// 		message: "-임시- 이메일 중복",
-	// 	});
-	// }
-
-	// 회원가입 성공
-	// addMockData(email, password, nickname);
-	// res.status(201).json({
-	// 	message: "-임시- 회원가입 성공",
-	// });
-	// logData();
 };
 
 module.exports = signUp;

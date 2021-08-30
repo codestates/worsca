@@ -1,48 +1,62 @@
 import React, { useEffect } from "react";
+
 const { kakao } = window;
 
-export default function Can() {
+const Can = ({ searchPlace }) => {
 	useEffect(() => {
-		mapscript();
-	}, []);
-
-	const mapscript = () => {
-		let container = document.getElementById("map");
-		let options = {
-			center: new kakao.maps.LatLng(37.624915253753194, 127.15122688059974),
-			level: 5,
+		var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+		const container = document.getElementById("myMap");
+		const options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			level: 3,
 		};
-		//map
 		const map = new kakao.maps.Map(container, options);
 
-		//마커가 표시 될 위치
-		let markerPosition = new kakao.maps.LatLng(
-			37.62197524055062,
-			127.16017523675508
-		);
+		const ps = new kakao.maps.services.Places();
 
-		// 마커를 생성
-		let marker = new kakao.maps.Marker({
-			position: markerPosition,
-		});
+		ps.keywordSearch(searchPlace, placesSearchCB);
 
-		// 마커를 지도 위에 표시
-		marker.setMap(map);
-	};
+		function placesSearchCB(data, status, pagination) {
+			if (status === kakao.maps.services.Status.OK) {
+				let bounds = new kakao.maps.LatLngBounds();
+
+				for (let i = 0; i < data.length; i++) {
+					displayMarker(data[i]);
+					bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+				}
+
+				map.setBounds(bounds);
+			}
+		}
+
+		function displayMarker(place) {
+			let marker = new kakao.maps.Marker({
+				map: map,
+				position: new kakao.maps.LatLng(place.y, place.x),
+			});
+
+			// 마커에 클릭이벤트를 등록합니다
+			kakao.maps.event.addListener(marker, "click", function () {
+				// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+				infowindow.setContent(
+					'<div style="padding:5px;font-size:12px;">' +
+						place.place_name +
+						"</div>"
+				);
+				infowindow.open(map, marker);
+			});
+		}
+	}, [searchPlace]);
 
 	return (
 		<div
-			id="map"
+			id="myMap"
 			style={{
-				position: "fixed",
-				minWidth: "100vw",
-				minHeight: "100vh",
-				top: "0",
-				left: "0",
-				width: "auto",
-				height: "auto",
-				// zIndex: "-1",
+				width: "100%",
+				height: "100%",
 			}}
 		></div>
 	);
-}
+};
+
+export default Can;

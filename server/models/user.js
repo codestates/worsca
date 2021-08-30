@@ -17,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: "owner_id",
 				sourceKey: "id",
 			});
+
+			models.User.belongsToMany(models.Store, {
+				through: models.Bookmark,
+				foreignKey: "id",
+				otherKey: "store_id",
+			});
 		}
 	}
 	User.init(
