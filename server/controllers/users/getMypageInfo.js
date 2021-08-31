@@ -1,5 +1,10 @@
 const Users = require("../../dbconnector/Users");
-const { sendBadRequest, sendNotFoundUser } = require("../../util/response");
+const {
+	sendBadRequest,
+	sendNotFoundUser,
+	sendUnauthorizedToken,
+} = require("../../util/response");
+const { verifyAuth } = require("../../auth/jwtToken");
 
 const getMypageInfo = async (req, res, next) => {
 	try {
@@ -10,6 +15,10 @@ const getMypageInfo = async (req, res, next) => {
 		}
 
 		// Authorization 검사
+		const userInToken = verifyAuth(req.headers.authorization);
+		if (userInToken instanceof Error || userInToken === null) {
+			return sendUnauthorizedToken(res, userInToken);
+		}
 
 		//user 찾기
 		const user = await Users.find(email, { stores: true, reviews: true });

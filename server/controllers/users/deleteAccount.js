@@ -15,6 +15,12 @@ const deleteAccount = async (req, res, next) => {
 		const { password } = req.body;
 		const [user, result] = await Users.remove(email, password);
 
+		// Authorization 검사
+		const userInToken = verifyAuth(req.headers.authorization);
+		if (userInToken instanceof Error || userInToken === null) {
+			return sendUnauthorizedToken(res, userInToken);
+		}
+
 		//해당 유저 없음
 		if (result === 0) {
 			return sendNotFoundUser(res);

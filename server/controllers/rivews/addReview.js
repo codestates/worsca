@@ -14,7 +14,11 @@ const addReview = async (req, res, next) => {
 	try {
 		const { contents, rating, decibel } = req.body;
 
-		//Authorization 확인
+		// Authorization 검사
+		const userInToken = verifyAuth(req.headers.authorization);
+		if (userInToken instanceof Error || userInToken === null) {
+			return sendUnauthorizedToken(res, userInToken);
+		}
 
 		let store = Stores.findById(storeId);
 

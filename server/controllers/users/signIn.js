@@ -1,5 +1,6 @@
 const Users = require("../../dbconnector/Users");
 const { validateBody } = require("../../util/validation");
+const { createJWT } = require("../../auth/jwtToken");
 const {
 	sendBadRequest,
 	sendNotFoundUser,
@@ -31,6 +32,11 @@ const signIn = async (req, res, next) => {
 		}
 
 		//로그인 성공 result === 1
+		const token = createJWT({
+			email: user.email,
+			nickname: user.nickname,
+		});
+		res.cookie("AccessToken", token);
 		return res.json({
 			user: {
 				email: user.email,

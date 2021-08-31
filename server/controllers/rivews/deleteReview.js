@@ -4,7 +4,11 @@ const { sendNotFoundReview } = require("../../util/response");
 const deleteReview = async (req, res, next) => {
 	const { reviewId } = req.params;
 
-	//Authorization 검사
+	// Authorization 검사
+	const userInToken = verifyAuth(req.headers.authorization);
+	if (userInToken instanceof Error || userInToken === null) {
+		return sendUnauthorizedToken(res, userInToken);
+	}
 
 	//삭제
 	try {
