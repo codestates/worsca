@@ -1,16 +1,16 @@
-const db = require("../../models");
+const Users = require("../../dbconnector/Users");
 const { validateBody } = require("../../util/validation");
 const { sendBadRequest } = require("../../util/response");
 
 const signUp = async (req, res, next) => {
 	try {
-		if( !validateBody(req.body, "email", "password", "nickname") ){
+		if (!validateBody(req.body, "email", "password", "nickname")) {
 			return sendBadRequest(res);
-		};
+		}
 
 		//db에 추가
 		const { email, password, nickname } = req.body;
-		const newUser = await db.User.create({ email, password, nickname });
+		const newUser = await Users.add(email, password, nickname);
 
 		res.status(201).json({
 			user: {
@@ -29,7 +29,7 @@ const signUp = async (req, res, next) => {
 				});
 			}
 		}
-		
+
 		//500 서버 에러
 		next(err);
 	}

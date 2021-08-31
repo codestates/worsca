@@ -1,34 +1,46 @@
-const db = require("../../models");
+const Users = require("../../dbconnector/Users");
 const { validateBody } = require("../../util/validation");
-const { sendBadRequest, sendNotFoundUser, sendNotMatchPassword } = require("../../util/response");
+const {
+	sendBadRequest,
+	sendNotFoundUser,
+	sendNotMatchPassword,
+} = require("../../util/response");
 
 const signIn = async (req, res, next) => {
 	try {
-		if( !validateBody(req.body, "email", "password") ){
+		if (!validateBody(req.body, "email", "password")) {
 			return sendBadRequest(res);
-		};
+		}
 
 		const { email, password } = req.body;
-		const findedUser = await db.User.findOne({ where: { email } });
+		const [user, result] = await Users.matchPassword(email, password);
+
+		//파라미터 잘못 줌
+		if (result === -2) {
+			throw new Error();
+		}
+
 		//해당 유저 존재하지 않을때
-		if (findedUser === undefined || findedUser === null) {
+		if (result === 0) {
 			return sendNotFoundUser(res);
 		}
 
 		//비밀번호 일치하지 않을때
-		if (findedUser.password !== password) {
+		if (result === -1) {
 			return sendNotMatchPassword(res);
 		}
 
-		//로그인 성공
+		//로그인 성공 result === 1
 		return res.json({
 			user: {
-				email: findedUser.email,
-				nickname: findedUser.nickname,
+				email: user.email,
+				nickname: user.nickname,
 			},
 			message: "로그인에 성공하였습니다.",
 		});
 	} catch (err) {
+		console.log("???");
+		console.dir(err);
 		next(err);
 	}
 };
