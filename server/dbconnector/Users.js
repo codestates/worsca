@@ -33,9 +33,9 @@ const find = async (userEmail, options = {}) => {
 		return null;
 	}
 
-	const { email, nickname, Stores: stores, Reviews: reviews } = user;
+	const { email, nickname, Stores: bookmarks, Reviews: reviews } = user;
 
-	return { email, nickname, stores, reviews };
+	return { email, nickname, bookmarks, reviews };
 };
 
 const matchPassword = async (email, password) => {

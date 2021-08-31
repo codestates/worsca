@@ -8,7 +8,7 @@ const deleteBookmark = require("../controllers/bookmark/deleteBookmark");
 
 const router = express.Router();
 
-router.get("/mypage/:email", getMypageInfo);
+router.get("/mypage", getMypageInfo);
 
 router.post("/signup", signUpController);
 

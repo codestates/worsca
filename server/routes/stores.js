@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/:storeId", getStoreInfo);
 
 //review
-router.post("/:storeId/reviews/:email", addReview);
+router.post("/:storeId/reviews", addReview);
 
 router.put("/reviews/:reviewId", updateReview);
 

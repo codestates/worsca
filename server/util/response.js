@@ -17,7 +17,7 @@ const sendNotMatchPassword = (res) => {
 };
 
 const sendNotFoundReview = (res) => {
-	res.status(204).json({
+	res.status(404).json({
 		message: "해당 리뷰가 없습니다.",
 	});
 };

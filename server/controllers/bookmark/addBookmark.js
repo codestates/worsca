@@ -1,4 +1,5 @@
 const Bookmarks = require("../../dbconnector/Bookmark");
+const Stores = require("../../dbconnector/Stores");
 const { verifyAuth } = require("../../auth/jwtToken");
 const {
 	sendUnauthorizedToken,
@@ -19,10 +20,10 @@ const addBookmark = async (req, res, next) => {
 
 		const { store_id } = req.body;
 
-		let store = Stores.findById(storeId);
+		let store = await Stores.find(store_id);
 
 		if (store === undefined || store === null) {
-			store = await Stores.init(storeId);
+			store = await Stores.init(store_id);
 		}
 
 		const [bookmark, result] = await Bookmarks.add(user.email, store_id);
