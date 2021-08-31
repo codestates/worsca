@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
-import CafeAuto from "../components/CafeAuto";
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -31,6 +30,7 @@ const MainpageSection = styled.div`
 const MainTitle = styled.div`
 	font-weight: 800;
 	top: 3vh;
+	margin-bottom: 1rem;
 	.main__title__text {
 		height: 8rem;
 		color: #f5f5f3;
@@ -43,7 +43,7 @@ const MainSearchbar = styled.form`
 	background-color: rgba(255, 255, 255, 0.05);
 	height: 5.4vh;
 	min-width: 250px;
-	width: 30%;
+	width: 35vh;
 	border-radius: 2vh;
 	margin-top: 20px;
 	display: flex;
@@ -117,8 +117,7 @@ const Mainpage = () => {
 						<img src={logo} alt="worsca" className="main__title__text"></img>
 					</Link>
 				</MainTitle>
-				{/* <Link> */}
-				<CafeAuto>
+				<Link>
 					<MainSearchbar>
 						<input
 							placeholder="가고싶은 장소를 적어주세요"
@@ -126,8 +125,7 @@ const Mainpage = () => {
 						/>
 						<button>Q</button>
 					</MainSearchbar>
-				</CafeAuto>
-				{/* </Link> */}
+				</Link>
 				<video autoPlay muted loop>
 					<source src={video} type="video/mp4"></source>
 				</video>

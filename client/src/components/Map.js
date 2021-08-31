@@ -96,16 +96,22 @@ const CafeBox = styled.div`
 	}
 `;
 
-// map되는지 테스트용 배열
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const Map = (props) => {
+const Map = () => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 	const [login, setLogin] = useState(false);
 
 	const [InputText, setInputText] = useState("");
 	const [Place, setPlace] = useState("");
+	// 카페 정보
+	const [mapinfo, setMapinfo] = useState([]);
+	const [cafeName, setCafeName] = useState("");
+	const [cafeAdd, setCafeAdd] = useState("");
+
+	// 카페 정보 항목
+	const mapChange = (data) => {
+		setMapinfo(data);
+	};
 
 	const onChange = (e) => {
 		setInputText(e.target.value);
@@ -118,7 +124,9 @@ const Map = (props) => {
 	};
 
 	// handler
-	const reverseBoo = () => {
+	const reverseBoo = (data = "none") => {
+		setCafeAdd(data.address_name);
+		setCafeName(data.place_name);
 		setBoo(!boo);
 	};
 
@@ -157,8 +165,13 @@ const Map = (props) => {
 					},
 				}}
 				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
 			>
-				<CafeModal reverseBoo={reverseBoo}></CafeModal>
+				<CafeModal
+					reverseBoo={reverseBoo}
+					cafeName={cafeName}
+					cafeAdd={cafeAdd}
+				></CafeModal>
 			</Modal>
 			<Modal
 				isOpen={mypage}
@@ -190,6 +203,7 @@ const Map = (props) => {
 					},
 				}}
 				onRequestClose={() => mypageToggle()}
+				ariaHideApp={false}
 			>
 				<Mypage />
 			</Modal>
@@ -209,10 +223,10 @@ const Map = (props) => {
 					)}
 				</NavBtn>
 			</Nav>
-			<Can searchPlace={Place} />
+			<Can searchPlace={Place} mapChange={mapChange} />
 			<CafeBox>
-				{arr.map((el) => {
-					return <Cafepage reverseBoo={reverseBoo}></Cafepage>;
+				{mapinfo.map((data) => {
+					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;
 				})}
 			</CafeBox>
 		</MapSection>

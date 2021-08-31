@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const { kakao } = window;
 
-const Can = ({ searchPlace }) => {
+const Can = ({ searchPlace, mapChange }) => {
 	useEffect(() => {
 		var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 		const container = document.getElementById("myMap");
@@ -29,6 +29,7 @@ const Can = ({ searchPlace }) => {
 					bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
 				}
 
+				mapChange(data);
 				map.setBounds(bounds);
 			}
 		}
@@ -38,9 +39,7 @@ const Can = ({ searchPlace }) => {
 				map: map,
 				position: new kakao.maps.LatLng(place.y, place.x),
 			});
-
-			console.log(place);
-
+      
 			// 마커에 클릭이벤트를 등록합니다
 			kakao.maps.event.addListener(marker, "click", function () {
 				// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
