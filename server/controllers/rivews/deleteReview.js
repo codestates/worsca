@@ -1,5 +1,9 @@
 const Reviews = require("../../dbconnector/Reviews");
-const { sendNotFoundReview } = require("../../util/response");
+const {
+	sendNotFoundReview,
+	sendUnauthorizedToken,
+} = require("../../util/response");
+const { verifyAuth } = require("../../auth/jwtToken");
 
 const deleteReview = async (req, res, next) => {
 	const { reviewId } = req.params;
@@ -15,11 +19,11 @@ const deleteReview = async (req, res, next) => {
 		const result = await Reviews.removeById(reviewId);
 
 		if (result === 0) {
-			sendNotFoundReview(res);
+			return sendNotFoundReview(res);
 		}
 
 		res.status(200).json({
-			message: "리뷰가 성공적으로 삭제되었습니다.",
+			message: "리뷰가 삭제되었습니다.",
 		});
 	} catch (err) {
 		next(err);

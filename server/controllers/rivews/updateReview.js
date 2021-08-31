@@ -1,6 +1,10 @@
 const Reviews = require("../../dbconnector/Reviews");
-const { sendNotFoundReview } = require("../../util/response");
+const {
+	sendNotFoundReview,
+	sendUnauthorizedToken,
+} = require("../../util/response");
 const { validateBody } = require("../../util/validation");
+const { verifyAuth } = require("../../auth/jwtToken");
 
 const updateReview = async (req, res, next) => {
 	const { reviewId } = req.params;
@@ -23,12 +27,12 @@ const updateReview = async (req, res, next) => {
 		const review = await Reviews.update(reviewId, contents, rating, decibel);
 
 		if (review === null) {
-			sendNotFoundReview(res);
+			return sendNotFoundReview(res);
 		}
 
 		res.status(200).json({
 			review,
-			message: "리뷰가 성공적으로 수정되었습니다.",
+			message: "리뷰가 수정되었습니다.",
 		});
 	} catch (err) {
 		next(err);
