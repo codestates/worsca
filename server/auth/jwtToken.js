@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const createJWT = (payload) => {
-	const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "5m" });
+	const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "30m" });
 	return token;
 };
 

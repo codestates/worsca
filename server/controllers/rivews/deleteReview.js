@@ -6,13 +6,13 @@ const {
 const { verifyAuth } = require("../../auth/jwtToken");
 
 const deleteReview = async (req, res, next) => {
-	const { reviewId } = req.params;
-
 	// Authorization 검사
-	const userInToken = verifyAuth(req.headers.authorization);
-	if (userInToken instanceof Error || userInToken === null) {
-		return sendUnauthorizedToken(res, userInToken);
+	const user = verifyAuth(req.headers.authorization);
+	if (user instanceof Error || user === null) {
+		return sendUnauthorizedToken(res, user);
 	}
+
+	const { reviewId } = req.params;
 
 	//삭제
 	try {

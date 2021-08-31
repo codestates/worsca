@@ -19,8 +19,9 @@ const deleteAccount = async (req, res, next) => {
 		if (!validateBody(req.body, "password")) {
 			return sendBadRequest(res);
 		}
+
 		const { password } = req.body;
-		const [user, result] = await Users.remove(email, password);
+		const result = await Users.remove(user.email, password);
 
 		//해당 유저 없음
 		if (result === 0) {

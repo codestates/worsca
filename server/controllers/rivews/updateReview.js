@@ -7,21 +7,20 @@ const { validateBody } = require("../../util/validation");
 const { verifyAuth } = require("../../auth/jwtToken");
 
 const updateReview = async (req, res, next) => {
-	const { reviewId } = req.params;
-	const requirementKey = ["contents", "rating", "decibel"];
-
-	if (!validateBody(req.body, ...requirementKey)) {
-		return sendBadRequest(res);
-	}
-
 	try {
-		const { contents, rating, decibel } = req.body;
-
 		// Authorization 검사
-		const userInToken = verifyAuth(req.headers.authorization);
-		if (userInToken instanceof Error || userInToken === null) {
-			return sendUnauthorizedToken(res, userInToken);
+		const user = verifyAuth(req.headers.authorization);
+		if (user instanceof Error || user === null) {
+			return sendUnauthorizedToken(res, user);
 		}
+
+		const { reviewId } = req.params;
+
+		if (!validateBody(req.body, "contents", "rating", "decibel")) {
+			return sendBadRequest(res);
+		}
+
+		const { contents, rating, decibel } = req.body;
 
 		//수정
 		const review = await Reviews.update(reviewId, contents, rating, decibel);
