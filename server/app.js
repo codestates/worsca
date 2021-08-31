@@ -1,12 +1,16 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 //import router
 const usersRouter = require("./routes/users");
 const storesRouter = require("./routes/stores");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 //요청 확인 로그 미들웨어
 app.use((req, res, next) => {
@@ -25,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+	console.log("Error In Server");
 	console.error(err);
 	res.status(500).json({
 		message: "Error In Server",

@@ -13,7 +13,11 @@ const updateReview = async (req, res, next) => {
 	try {
 		const { contents, rating, decibel } = req.body;
 
-		//Authorization검사
+		// Authorization 검사
+		const userInToken = verifyAuth(req.headers.authorization);
+		if (userInToken instanceof Error || userInToken === null) {
+			return sendUnauthorizedToken(res, userInToken);
+		}
 
 		//수정
 		const review = await Reviews.update(reviewId, contents, rating, decibel);
