@@ -27,7 +27,7 @@ const addReview = async (req, res, next) => {
 		let store = Stores.findById(storeId);
 
 		if (store === undefined || store === null) {
-			store = Stores.init(storeId);
+			store = await Stores.init(storeId);
 		}
 
 		let [review, result] = await Reviews.add(

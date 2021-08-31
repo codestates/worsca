@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 			models.Store.belongsToMany(models.User, {
 				through: models.Bookmark,
 				foreignKey: "store_id",
-				otherKey: "id",
+				otherKey: "user_id",
 			});
 		}
 	}

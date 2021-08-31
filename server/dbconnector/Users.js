@@ -80,7 +80,17 @@ const remove = async (email, password) => {
 		await user.destroy();
 	}
 
-	return [user, result];
+	return result;
+};
+
+const getId = async (email) => {
+	const user = await User.findOne({
+		where: {
+			email,
+		},
+		attributes: ["id"],
+	});
+	return user.id;
 };
 
 module.exports = {
@@ -88,4 +98,5 @@ module.exports = {
 	matchPassword,
 	add,
 	remove,
+	getId,
 };
