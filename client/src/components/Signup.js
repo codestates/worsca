@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/signup.png";
+import axios from "axios";
 
 const SignupSection = styled.div`
 	display: flex;
