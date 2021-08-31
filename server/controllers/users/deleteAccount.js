@@ -1,4 +1,4 @@
-const db = require("../../models");
+const Users = require("../../dbconnector/Users");
 const { validateBody } = require("../../util/validation");
 const {
 	sendBadRequest,
@@ -8,23 +8,29 @@ const {
 
 const deleteAccount = async (req, res, next) => {
 	try {
-		if (!validateBody(req.body, "email", "password")) {
+		if (!validateBody(req.body, "password")) {
 			return sendBadRequest(res);
 		}
+		const { email } = req.params;
+		const { password } = req.body;
+		const [user, result] = await Users.remove(email, password);
 
-		const { email, password } = req.body;
-		const user = await db.User.findOne({ where: { email } });
-
-		if (user === undefined || user === null) {
+		//해당 유저 없음
+		if (result === 0) {
 			return sendNotFoundUser(res);
 		}
 
-		if (user.password !== password) {
+		//비밀번호 일치하지 않음
+		if (result === -1) {
 			return sendNotMatchPassword(res);
 		}
 
-		await user.destroy();
+		//회원탈퇴 성공 result === 1
 		res.status(200).json({
+			user: {
+				email: user.email,
+				nickname: user.nickname,
+			},
 			message: "회원탈퇴가 완료되었습니다.",
 		});
 	} catch (err) {

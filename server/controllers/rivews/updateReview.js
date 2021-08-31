@@ -1,4 +1,5 @@
-const db = require("../../models");
+const Reviews = require("../../dbconnector/Reviews");
+const { sendNotFoundReview } = require("../../util/response");
 const { validateBody } = require("../../util/validation");
 
 const updateReview = async (req, res, next) => {
@@ -15,18 +16,15 @@ const updateReview = async (req, res, next) => {
 		//Authorization검사
 
 		//수정
-		const review = await db.Review.findOne({
-			where: { id: reviewId },
-		});
-		review.contents = contents;
-		review.rating = rating;
-		review.decibel = decibel;
-		review.createdAt = new Date();
-		review.save();
+		const review = await Reviews.update(reviewId, contents, rating, decibel);
+
+		if (review === null) {
+			sendNotFoundReview(res);
+		}
 
 		res.status(200).json({
 			review,
-			message: "수정 완료",
+			message: "리뷰가 성공적으로 수정되었습니다.",
 		});
 	} catch (err) {
 		next(err);
