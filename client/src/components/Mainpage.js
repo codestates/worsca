@@ -1,9 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { useTheme } from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
-import CafeAuto from "../components/CafeAuto";
+import Login from "../components/Login";
+
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -103,17 +104,28 @@ const searchValue = (e) => {
 // 인풋창이 submit하면 => map창으로 이동
 // 인풋창의 value를 map.js에서 결과값으로 가져온다.
 
-const Mainpage = () => {
+const Mainpage = ({ loginInfo, setErrorMessage }) => {
 	const history = useHistory();
 
-	const InputSubmit = () => {
-		return history.push("/map");
+	const signUp = () => {
+		if (!loginInfo) {
+			history.push("/login");
+		} else if (loginInfo) {
+			if (!loginInfo.email || !loginInfo.password) {
+				setErrorMessage("이메일과 비밀번호를 입력하세요");
+				return;
+			}
+			history.push("/");
+		}
 	};
+	// const InputSubmit = () => {
+	// 	return history.push("/map");
+	// };
 
 	return (
 		<>
 			<BtnBox>
-				<Link className="btn" to="/login">
+				<Link className="btn" to="/login" onClick={signUp}>
 					Login
 				</Link>
 			</BtnBox>
@@ -123,8 +135,7 @@ const Mainpage = () => {
 						<img src={logo} alt="worsca" className="main__title__text"></img>
 					</Link>
 				</MainTitle>
-				{/* <Link> */}
-				<CafeAuto>
+				<Link>
 					<MainSearchbar>
 						<input
 							placeholder="가고싶은 장소를 적어주세요"
@@ -132,8 +143,7 @@ const Mainpage = () => {
 						/>
 						<button>Q</button>
 					</MainSearchbar>
-				</CafeAuto>
-				{/* </Link> */}
+				</Link>
 				<video autoPlay muted loop>
 					<source src={video} type="video/mp4"></source>
 				</video>

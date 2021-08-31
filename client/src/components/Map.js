@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-
 import styled from "styled-components";
 import logo from "../img/worsca.png";
 import hamburger from "../img/hamburger.png";
@@ -9,7 +8,6 @@ import Modal from "react-modal";
 import CafeModal from "./CafeModal";
 import Mapping from "./Mapping";
 import Mypage from "./Mypage";
-import CafeAuto from "./CafeAuto";
 import Can from "./Can";
 
 const MapSection = styled.div`
@@ -105,7 +103,6 @@ const Map = () => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 	const [login, setLogin] = useState(false);
-
 	const [InputText, setInputText] = useState("");
 	const [Place, setPlace] = useState("");
 
@@ -195,8 +192,6 @@ const Map = () => {
 			>
 				<Mypage />
 			</Modal>
-
-			<Can searchPlace={Place} />
 			<Nav>
 				<Link className="logo" to="/">
 					<img src={logo} alt="worsca"></img>
@@ -212,6 +207,7 @@ const Map = () => {
 					)}
 				</NavBtn>
 			</Nav>
+			<Can searchPlace={Place} />
 			<CafeBox>
 				{arr.map((el) => {
 					return <Cafepage reverseBoo={reverseBoo}></Cafepage>;

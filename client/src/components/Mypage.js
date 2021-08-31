@@ -1,89 +1,152 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import Cafepage from "./Cafepage";
-import deleteBtn from "../img/delete.png";
+import { Link, useHistory } from "react-router-dom";
+import video from "../video/mainpage.mp4";
+import logo from "../img/worsca.png";
+// ! 스타일
 
-const MypageSection = styled.div`
+// 메인페이지 전체 스타일
+const MainpageSection = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	/* background-color: black; */
-	width: 100%;
-	box-sizing: border-box;
-	-ms-overflow-style: none;
-	&::-webkit-scrollbar {
-		display: none;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	video {
+		position: fixed;
+		min-width: 100%;
+		min-height: 100%;
+		top: 0;
+		left: 0;
+		width: auto;
+		height: auto;
+		z-index: -1;
 	}
 `;
 
-const UserBox = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	margin-top: 2rem;
-	margin-bottom: 2rem;
-	padding: 1rem;
+// title 스타일
+const MainTitle = styled.div`
+	font-weight: 800;
+	top: 3vh;
+	margin-bottom: 1rem;
+	.main__title__text {
+		height: 8rem;
+		color: #f5f5f3;
+	}
+`;
+
+// 검색창 스타일
+const MainSearchbar = styled.form`
 	border: 3px solid #38d9a9;
-	.title {
-		font-weight: bold;
-		margin-right: 6px;
-		font-size: 1.3rem;
-	}
-	.direction {
-		display: flex;
-		margin-bottom: 0.5rem;
-		align-items: center;
-	}
-`;
-
-const FavoriteBox = styled.div`
+	background-color: rgba(255, 255, 255, 0.05);
+	height: 5.4vh;
+	min-width: 250px;
+	width: 35vh;
+	border-radius: 2vh;
+	margin-top: 20px;
 	display: flex;
-	justify-content: space-around;
-	padding: 1rem;
-	box-sizing: border-box;
-	align-items: center;
-	background: #ecedec;
-	.deleteBtn {
-		cursor: pointer;
-		img {
-			height: 100px;
+	justify-content: space-between;
+	input {
+		background-color: rgba(0, 0, 0, 0);
+		margin-left: 16px;
+		border: none;
+		width: 80%;
+		color: #f5f5f3;
+		font-weight: bold;
+		font-size: 18px;
+		&::placeholder {
+			color: #f5f5f3;
+			font-weight: bold;
+			font-size: 18px;
 		}
 	}
+	button {
+		border: none;
+		background: none;
+		margin-right: 24px;
+		color: #f5f5f3;
+		font-size: 22px;
+	}
 `;
 
-// map되는지 테스트용 배열
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const BtnBox = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	.btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 10px;
+		color: #f5f5f3;
+		font-weight: bold;
+		font-size: 1rem;
+		&:hover {
+			transform: scale(1.06);
+		}
+		border: 3px solid #38d9a9;
+		color: #f5f5f3;
+		height: 2rem;
+		width: 5rem;
+		margin: 0.5rem;
+		border-radius: 15px;
+	}
+`;
 
-const Mypage = () => {
-	const [email, setEmail] = useState("codestate@gmail.com");
-	const [nickname, setNickname] = useState("Kim coding");
+// ! 이벤트 핸들러
+const searchValue = (e) => {
+	console.log(e.target.value);
+};
+
+// 메인 인풋창에 value를 상태로 관리해야한다.
+// 인풋창이 submit하면 => map창으로 이동
+// 인풋창의 value를 map.js에서 결과값으로 가져온다.
+
+const Mainpage = () => {
+	const history = useHistory();
+	// const [bookMark, setbookMark] = useState(cartItems.map((el) => el.itemId));
+
+	const InputSubmit = () => {
+		return history.push("/map");
+	};
+	// const handleCheckChange = (checked, id) => {
+	// 	// 중복체크 근데 지금 마이패이지가 이상하게 된다..
+	// 	if (checked) {
+	// 		setCheckedItems([...checkedItems, id]);
+	// 	} else {
+	// 		setCheckedItems(checkedItems.filter((el) => el !== id));
+	// 	}
+	// };
 
 	return (
-		<MypageSection>
-			<UserBox>
-				<div className="direction">
-					<div className="title">email: </div>
-					<div>{email}</div>
-				</div>
-				<div className="direction">
-					<div className="title">nickname: </div>
-					<div>{nickname}</div>
-				</div>
-			</UserBox>
-			{/* FavoriteBox.map으로 뿌려줄거 */}
-			{arr.map((el) => {
-				return (
-					<FavoriteBox>
-						<Cafepage className={el} />
-						<div className="deleteBtn">
-							<img src={deleteBtn} alt="deleteBtn"></img>
-						</div>
-					</FavoriteBox>
-				);
-			})}
-		</MypageSection>
+		<>
+			<BtnBox>
+				<Link className="btn" to="/login">
+					Login
+				</Link>
+			</BtnBox>
+			<MainpageSection>
+				<MainTitle>
+					<Link to="/">
+						<img src={logo} alt="worsca" className="main__title__text"></img>
+					</Link>
+				</MainTitle>
+				<Link>
+					<MainSearchbar>
+						<input
+							placeholder="가고싶은 장소를 적어주세요"
+							onChange={(e) => searchValue(e)}
+						/>
+						<button>Q</button>
+					</MainSearchbar>
+				</Link>
+				<video autoPlay muted loop>
+					<source src={video} type="video/mp4"></source>
+				</video>
+			</MainpageSection>
+		</>
 	);
 };
 
-export default Mypage;
+export default Mainpage;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Mainpage from "./components/Mainpage";
@@ -41,7 +41,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 `;
 
-function App() {
+const App = () => {
 	return (
 		<Router>
 			<GlobalStyles />
@@ -61,6 +61,6 @@ function App() {
 			</Switch>
 		</Router>
 	);
-}
+};
 
 export default App;

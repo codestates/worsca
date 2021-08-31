@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
-
+import Map from "../components/Map";
 // ! 스타일
 const LoginPageSection = styled.div`
 	display: flex;
@@ -96,30 +96,38 @@ const LoginBox = styled.form`
 	}
 `;
 
-const Login = () => {
+const Login = ({ result }) => {
 	const [loginInfo, setLoginInfo] = useState({
 		email: "",
 		password: "",
 	});
 	const [errorMessage, setErrorMessage] = useState("");
+	const [login, setLogin] = useState(false);
+	const history = useHistory();
 
 	const onClickLogin = (key) => (e) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+		console.log(setLoginInfo);
 	};
 
 	const signUp = () => {
+		if (!loginInfo) {
+			history.push("/login");
+		} else if (loginInfo) {
+			if (!loginInfo.email || !loginInfo.password) {
+				setErrorMessage("이메일과 비밀번호를 입력하세요");
+				return;
+			}
+			history.push("/map");
+		}
+
 		axios
 			.post("http://210.205.235.71/users/signin", loginInfo, {
-				// withCredentials: true,
+				withCredentials: true,
 			})
 			.then((el) => console.log(el));
-		if (!loginInfo.email || !loginInfo.password) {
-			setErrorMessage("이메일과 비밀번호를 입력하세요");
-			return;
-		}
 	};
 
-	// const clickLogin = () => {};
 	return (
 		<LoginPageSection>
 			<video autoPlay muted loop>
@@ -142,7 +150,10 @@ const Login = () => {
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
 					<button className="btn" onClick={signUp}>
-						LogIn
+						<Link to="/login">
+							{login ? <Map signUp={setLoginInfo} /> : <Redirect to="/login" />}
+							LogIn
+						</Link>
 					</button>
 					<button className="btn signup-btn">
 						<Link to="/signup" className="signup-link">
