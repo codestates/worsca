@@ -99,11 +99,14 @@ const Signup = () => {
 		// 1 . password_re 만들어서 일치 불일치 확인
 		// 2 . input창에 password가 불일치할때 false
 
-		axios.post("http://210.205.235.71/users/signup", userInfo).then(() => {
-			alert("회원가입 되었습니다! 로그인 해주세요.").then(() => {
-				return history.push("/Login");
+		axios
+			.post("http://210.205.235.71/users/signup", userInfo)
+			.then(() => {
+				alert("회원가입 되었습니다! 로그인 해주세요.");
+			})
+			.then(() => {
+				return history.push("http://localhost:3000/login");
 			});
-		});
 	};
 
 	return (

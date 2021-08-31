@@ -104,12 +104,6 @@ const searchValue = (e) => {
 // 인풋창의 value를 map.js에서 결과값으로 가져온다.
 
 const Mainpage = () => {
-	const history = useHistory();
-
-	const InputSubmit = () => {
-		return history.push("/map");
-	};
-
 	return (
 		<>
 			<BtnBox>
