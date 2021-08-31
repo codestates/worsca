@@ -1,7 +1,11 @@
 const Reviews = require("../../dbconnector/Reviews");
 const Stores = require("../../dbconnector/Reviews");
-const { sendBadRequest } = require("../../util/response");
+const {
+	sendBadRequest,
+	sendUnauthorizedToken,
+} = require("../../util/response");
 const { validateBody } = require("../../util/validation");
+const { verifyAuth } = require("../../auth/jwtToken");
 
 const addReview = async (req, res, next) => {
 	const { storeId, email } = req.params;
