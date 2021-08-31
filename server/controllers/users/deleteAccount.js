@@ -1,25 +1,26 @@
 const Users = require("../../dbconnector/Users");
+const { verifyAuth } = require("../../auth/jwtToken");
 const { validateBody } = require("../../util/validation");
 const {
 	sendBadRequest,
 	sendNotFoundUser,
 	sendNotMatchPassword,
+	sendUnauthorizedToken,
 } = require("../../util/response");
 
 const deleteAccount = async (req, res, next) => {
 	try {
+		// Authorization 검사
+		const user = verifyAuth(req.headers.authorization);
+		if (user instanceof Error || user === null) {
+			return sendUnauthorizedToken(res, user);
+		}
+
 		if (!validateBody(req.body, "password")) {
 			return sendBadRequest(res);
 		}
-		const { email } = req.params;
 		const { password } = req.body;
 		const [user, result] = await Users.remove(email, password);
-
-		// Authorization 검사
-		const userInToken = verifyAuth(req.headers.authorization);
-		if (userInToken instanceof Error || userInToken === null) {
-			return sendUnauthorizedToken(res, userInToken);
-		}
 
 		//해당 유저 없음
 		if (result === 0) {
