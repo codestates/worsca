@@ -97,6 +97,7 @@ const BtnBox = styled.div`
 
 // ! 이벤트 핸들러
 const searchValue = (e) => {
+	// console.log(e.target.value);
 	console.log(e.target.value);
 };
 

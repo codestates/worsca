@@ -107,6 +107,7 @@ const Login = ({ result }) => {
 
 	const onClickLogin = (key) => (e) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+		// console.log(setLoginInfo);
 		console.log(setLoginInfo);
 	};
 

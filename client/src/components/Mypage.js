@@ -108,6 +108,7 @@ const Mainpage = () => {
 	// const [bookMark, setbookMark] = useState(cartItems.map((el) => el.itemId));
 
 	const InputSubmit = () => {
+		// return history.push("/map");
 		return history.push("/map");
 	};
 	// const handleCheckChange = (checked, id) => {
