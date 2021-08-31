@@ -7,9 +7,7 @@ import hamburger from "../img/hamburger.png";
 import Cafepage from "./Cafepage";
 import Modal from "react-modal";
 import CafeModal from "./CafeModal";
-import Mapping from "./Mapping";
 import Mypage from "./Mypage";
-import CafeAuto from "./CafeAuto";
 import Can from "./Can";
 
 const MapSection = styled.div`
