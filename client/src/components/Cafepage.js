@@ -47,15 +47,25 @@ const Rating = styled.div`
 	}
 `;
 
-const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
+const Cafepage = ({
+	reverseBoo,
+	data = "none",
+	ratingStar = "none",
+	mapinfo,
+}) => {
 	const [like_btn, setlike_btn] = useState(true);
 	const onClick = () => {
 		// 엑시오스 통신을 보내주면 될것 같다.
 		// 북마크 true or false로
 		// let url 변수 선언해서 요청한다.
-
-		like_btn ? setlike_btn(false) : setlike_btn(true);
+		like_btn
+			? axios.post("http://210.205.235.71/users/bookmarks").then((data) => {
+					mapinfo.push(data);
+					setlike_btn(false);
+			  })
+			: setlike_btn(true);
 	};
+	console.log(mapinfo);
 
 	// 문구 아이디 정할 랜덤 상수
 	const randomNum = Math.floor(Math.random() * 3);
@@ -76,12 +86,23 @@ const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
 				{like_btn === true ? (
 					<StarOutlined
 						onClick={onClick}
-						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
+						style={{
+							fontSize: "1.5rem",
+							color: "#38d9a9",
+							float: "right",
+						}}
 					/>
 				) : (
 					<StarFilled
 						onClick={onClick}
-						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
+						style={{
+							fontSize: "1.5rem",
+							color: "#38d9a9",
+							// float: "right",
+							// margin: "100px,-4px",
+							margin: "0",
+							padding: "0.5rem 1rem",
+						}}
 					/>
 				)}
 			</div>
