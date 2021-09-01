@@ -4,7 +4,7 @@ import config from "../config";
 
 import styled from "styled-components";
 import logo from "../img/worsca.png";
-import hamburger from "../img/hamburger.png";
+import menubar from "../img/menubar.png";
 import Cafepage from "./Cafepage";
 import Modal from "react-modal";
 import CafeModal from "./CafeModal";
@@ -175,7 +175,6 @@ const Map = ({ place, login, inputData, accessToken }) => {
 			return store.id;
 		});
 
-
 		const requestList = await axios
 			.post(`${config.serverUrl}/stores`, {
 				storeList: storeIdList,
@@ -255,7 +254,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 						<input placeholder="검색" onChange={onChange} value={InputText} />
 					</SearchBox>
 					{login ? (
-						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
+						<img onClick={mypageToggle} src={menubar} alt="worsca"></img>
 					) : (
 						<Redirect to="/login" />
 					)}

@@ -163,6 +163,7 @@ const CafeSectionDesBox = styled.div`
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
+			justify-content: flex-end;
 		}
 	}
 `;
@@ -171,7 +172,7 @@ const ReviewBox = styled.form`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 110px;
+	height: 170px;
 
 	.title {
 		font-size: 1.4rem;
@@ -189,6 +190,13 @@ const ReviewBox = styled.form`
 			font-size: 14px;
 		}
 	}
+	.inputBtn {
+		margin-top: 10px;
+		height: 60px;
+		width: 80px;
+		border-radius: 1vh;
+		background-color: #38d9a9;
+	}
 `;
 
 const CafeModal = ({ reverseBoo, store, accessToken }) => {
@@ -203,7 +211,7 @@ const CafeModal = ({ reverseBoo, store, accessToken }) => {
 	const onClickReview = (key) => (e) => {
 		setReviewInfo({ ...reviewInfo, [key]: e.target.value });
 	};
-
+	console.log(reviewInfo);
 	const onSubmit = (e) => {
 		e.preventDefault();
 		// 리뷰 값 보내기
@@ -219,6 +227,8 @@ const CafeModal = ({ reverseBoo, store, accessToken }) => {
 			.catch((err) => {
 				console.log(err);
 			});
+
+		setReview(!reviewTogle);
 	};
 
 	// 문구 아이디 정할 랜덤 상수
@@ -319,7 +329,7 @@ const CafeModal = ({ reverseBoo, store, accessToken }) => {
 								min="1"
 								max="5"
 							/>
-							<button></button>
+							<button className="inputBtn">리뷰 작성</button>
 						</ReviewBox>
 					) : (
 						<div className="btnBox">
