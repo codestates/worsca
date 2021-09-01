@@ -81,18 +81,21 @@ const BtnBox = styled.div`
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 10px;
-		color: #f5f5f3;
-		font-weight: bold;
+		color: black;
+		font-weight: 400;
 		font-size: 1rem;
+		cursor: pointer;
 		&:hover {
 			transform: scale(1.06);
 		}
 		border: 3px solid #38d9a9;
-		color: #f5f5f3;
 		height: 2rem;
 		width: 5rem;
 		margin: 0.5rem;
 		border-radius: 15px;
+	}
+	.logout_btn {
+		color: black;
 	}
 `;
 
@@ -124,7 +127,12 @@ const Mainpage = ({ login, loginHandler, inputHandler }) => {
 						Login
 					</Link>
 				) : (
-					<div className="btn" onClick={loginHandler}>
+					<div
+						className="btn logout_btn"
+						onClick={() => {
+							loginHandler({ user: { accessToken: "" } });
+						}}
+					>
 						Logout
 					</div>
 				)}
