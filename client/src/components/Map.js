@@ -97,10 +97,9 @@ const CafeBox = styled.div`
 	}
 `;
 
-const Map = ({ place }) => {
+const Map = ({ login, inputData }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
-	const [login, setLogin] = useState(false);
 
 	const [InputText, setInputText] = useState("");
 	const [Place, setPlace] = useState("");
@@ -128,7 +127,7 @@ const Map = ({ place }) => {
 		});
 
 		setMapinfo(data);
-		console.log(data);
+		// console.log(data);
 	};
 
 	const onChange = (e) => {
@@ -152,7 +151,7 @@ const Map = ({ place }) => {
 	const mypageToggle = () => {
 		setMypage(!mypage);
 	};
-	// console.log(place);
+
 	return (
 		<MapSection>
 			<Modal
@@ -236,14 +235,14 @@ const Map = ({ place }) => {
 					<SearchBox className="inputForm" onSubmit={handleSubmit}>
 						<input placeholder="검색" onChange={onChange} value={InputText} />
 					</SearchBox>
-					{!login ? (
+					{login ? (
 						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
 					) : (
 						<Redirect to="/login" />
 					)}
 				</NavBtn>
 			</Nav>
-			<Can searchPlace={Place} mapChange={mapChange} />
+			<Can searchPlace={Place || inputData} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
 					return (

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, Route, useHistory } from "react-router-dom";
+import { Link, Route, useHistory, Redirect } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
+import Map from "./Map";
 
 // ! 스타일
 
@@ -99,9 +100,8 @@ const BtnBox = styled.div`
 // 인풋창이 submit하면 => map창으로 이동
 // 인풋창의 value를 map.js에서 결과값으로 가져온다.
 
-const Mainpage = ({ login, loginHandler, placeHandler }) => {
+const Mainpage = ({ login, loginHandler, inputHandler }) => {
 	const [InputText, setInputText] = useState("");
-	const [Place, setPlace] = useState("");
 
 	const history = useHistory();
 
@@ -109,13 +109,11 @@ const Mainpage = ({ login, loginHandler, placeHandler }) => {
 		setInputText(e.target.value);
 	};
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		setPlace(InputText);
-		setInputText("");
-
-		placeHandler(Place);
-		history.push("/map");
+	const onKeyPress = (e) => {
+		if (e.key === "Enter") {
+			inputHandler(InputText);
+			history.push("/map");
+		}
 	};
 
 	return (
@@ -137,16 +135,15 @@ const Mainpage = ({ login, loginHandler, placeHandler }) => {
 						<img src={logo} alt="worsca" className="main__title__text"></img>
 					</Link>
 				</MainTitle>
-				<Route to="/map">
-					<MainSearchbar onSubmit={onSubmit}>
-						<input
-							placeholder="가고싶은 장소를 적어주세요"
-							value={InputText}
-							onChange={onChange}
-						/>
-						<button>Q</button>
-					</MainSearchbar>
-				</Route>
+				<MainSearchbar>
+					<input
+						placeholder="가고싶은 장소를 적어주세요"
+						value={InputText}
+						onChange={onChange}
+						onKeyPress={onKeyPress}
+					/>
+					<button>Q</button>
+				</MainSearchbar>
 				<video autoPlay muted loop>
 					<source src={video} type="video/mp4"></source>
 				</video>

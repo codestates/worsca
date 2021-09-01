@@ -47,20 +47,21 @@ function App() {
 	);
 	// userinfo
 	const [userinfo, setUserinfo] = useState({});
-	const [place, setPlace] = useState("");
+	// input data
+	const [inputData, setInputData] = useState("");
 
 	const loginHandler = (data) => {
 		setUserinfo(data);
 		setLogin(!login);
 	};
 
-	const placeHandler = (data) => {
-		setPlace(data);
-	};
-
 	useEffect(() => {
 		window.localStorage.setItem("login", login);
 	}, [login]);
+
+	const inputHandler = (data) => {
+		setInputData(data);
+	};
 
 	return (
 		<Router>
@@ -71,11 +72,11 @@ function App() {
 						login={login}
 						userinfo={userinfo}
 						loginHandler={loginHandler}
-						placeHandler={placeHandler}
+						inputHandler={inputHandler}
 					/>
 				</Route>
 				<Route exact path="/map">
-					<Map place={place} />
+					<Map login={login} inputData={inputData} />
 				</Route>
 				<Route exact path="/login">
 					<Login loginHandler={loginHandler} login={login} />
