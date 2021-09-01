@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
+import Can from "./Can";
+
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -98,12 +100,30 @@ const BtnBox = styled.div`
 const searchValue = (e) => {
 	console.log(e.target.value);
 };
-
 // 메인 인풋창에 value를 상태로 관리해야한다.
 // 인풋창이 submit하면 => map창으로 이동
 // 인풋창의 value를 map.js에서 결과값으로 가져온다.
 
 const Mainpage = () => {
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+	const [InputText, setInputText] = useState("");
+	const [Place, setPlace] = useState("");
+	const [mapinfo, setMapinfo] = useState([]);
+	const history = useHistory();
+
+	const onChange = (data) => {
+		history.push("/map");
+		setMapinfo(data);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setPlace(InputText);
+		setInputText("");
+	};
 	return (
 		<>
 			<BtnBox>
@@ -118,12 +138,18 @@ const Mainpage = () => {
 					</Link>
 				</MainTitle>
 				<Link>
-					<MainSearchbar>
+					<MainSearchbar className="inputForm" onSubmit={handleSubmit}>
 						<input
 							placeholder="가고싶은 장소를 적어주세요"
 							onChange={(e) => searchValue(e)}
 						/>
-						<button>Q</button>
+						{loginInfo ? (
+							<button onClick={onChange} searchPlace={Place}>
+								Q
+							</button>
+						) : (
+							<button>Q</button>
+						)}
 					</MainSearchbar>
 				</Link>
 				<video autoPlay muted loop>

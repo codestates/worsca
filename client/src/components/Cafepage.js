@@ -48,15 +48,20 @@ const Rating = styled.div`
 `;
 
 const Cafepage = ({ reverseBoo, data = "none" }) => {
-  const [like_btn, setlike_btn] = useState(true);
+	const [like_btn, setlike_btn] = useState(true);
 	const onClick = () => {
 		// 엑시오스 통신을 보내주면 될것 같다.
 		// 북마크 true or false로
 		// let url 변수 선언해서 요청한다.
 
+		axios
+			.post("http://210.205.235.71/users/bookmarks", like_btn)
+			.then((res) => {
+				console.log(res);
+			});
 		like_btn ? setlike_btn(false) : setlike_btn(true);
 	};
-  
+
 	// 문구 아이디 정할 랜덤 상수
 	const randomNum = Math.floor(Math.random() * 3);
 
@@ -93,7 +98,6 @@ const Cafepage = ({ reverseBoo, data = "none" }) => {
 			<div className="title" onClick={reverseBoo}>
 				스타빅스
 			</div>
-      // Like_BTN부분
 			<div className="like_btn">
 				{like_btn === true ? (
 					<StarOutlined
@@ -106,7 +110,7 @@ const Cafepage = ({ reverseBoo, data = "none" }) => {
 						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
 					/>
 				)}
-      </div>
+			</div>
 			<Rating>
 				<div className="rating_title">평점</div>
 				<div className="star">{"★".repeat(star.rating)}</div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
 
@@ -102,24 +102,31 @@ const Login = () => {
 		password: "",
 	});
 	const [errorMessage, setErrorMessage] = useState("");
+	// const [login, setLogin] = useState(false);
+	const history = useHistory();
 
 	const onClickLogin = (key) => (e) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+		console.log(setLoginInfo);
 	};
 
 	const signUp = () => {
 		axios
 			.post("http://210.205.235.71/users/signin", loginInfo, {
 				// withCredentials: true,
+				// withCredentials을 주석처리를 해야지 axios 요청이 들어간다.
 			})
 			.then((el) => console.log(el));
-		if (!loginInfo.email || !loginInfo.password) {
-			setErrorMessage("이메일과 비밀번호를 입력하세요");
-			return;
+		if (!loginInfo) {
+			history.push("/login");
+		} else if (loginInfo) {
+			if (!loginInfo.email || !loginInfo.password) {
+				setErrorMessage("이메일과 비밀번호를 입력하세요");
+				return;
+			}
+			history.push("/map");
 		}
 	};
-
-	// const clickLogin = () => {};
 	return (
 		<LoginPageSection>
 			<video autoPlay muted loop>
@@ -141,9 +148,13 @@ const Login = () => {
 				/>
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
-					<button className="btn" onClick={signUp}>
-						LogIn
-					</button>
+					{loginInfo ? (
+						<button className="btn" onClick={signUp}>
+							LogIn
+						</button>
+					) : (
+						<button className="btn">LogIn</button>
+					)}
 					<button className="btn signup-btn">
 						<Link to="/signup" className="signup-link">
 							SignUp

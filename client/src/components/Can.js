@@ -11,9 +11,6 @@ const Can = ({ searchPlace, mapChange }) => {
 			level: 3,
 		};
 
-		console.log(container);
-		console.log(options);
-
 		const map = new kakao.maps.Map(container, options);
 
 		const ps = new kakao.maps.services.Places();
@@ -28,7 +25,6 @@ const Can = ({ searchPlace, mapChange }) => {
 					displayMarker(data[i]);
 					bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
 				}
-
 				mapChange(data);
 				map.setBounds(bounds);
 			}
@@ -39,7 +35,7 @@ const Can = ({ searchPlace, mapChange }) => {
 				map: map,
 				position: new kakao.maps.LatLng(place.y, place.x),
 			});
-      
+
 			// 마커에 클릭이벤트를 등록합니다
 			kakao.maps.event.addListener(marker, "click", function () {
 				// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-
 import styled from "styled-components";
 import logo from "../img/worsca.png";
 import hamburger from "../img/hamburger.png";
