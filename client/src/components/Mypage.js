@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import config from "../config";
 import Cafepage from "./Cafepage";
 import deleteBtn from "../img/delete.png";
+import axios from "axios";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -52,10 +54,7 @@ const FavoriteBox = styled.div`
 	}
 `;
 
-// map되는지 테스트용 배열
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const Mypage = () => {
+const Mypage = ({ mark = "none" }) => {
 	const [email, setEmail] = useState("codestate@gmail.com");
 	const [nickname, setNickname] = useState("Kim coding");
 
@@ -71,8 +70,7 @@ const Mypage = () => {
 					<div>{nickname}</div>
 				</div>
 			</UserBox>
-			{/* FavoriteBox.map으로 뿌려줄거 */}
-			{arr.map((el) => {
+			{mark.forEach((el) => {
 				return (
 					<FavoriteBox>
 						<Cafepage className={el} />

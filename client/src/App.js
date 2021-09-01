@@ -51,7 +51,6 @@ function App() {
 	const [inputData, setInputData] = useState("");
 
 	const loginHandler = (data) => {
-		setUserinfo(data);
 		setLogin(!login);
 	};
 
@@ -60,6 +59,7 @@ function App() {
 	}, [login]);
 
 	const inputHandler = (data) => {
+		setUserinfo(data);
 		setInputData(data);
 	};
 

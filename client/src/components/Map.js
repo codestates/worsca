@@ -98,7 +98,6 @@ const CafeBox = styled.div`
 	}
 `;
 
-
 const cafeModalStyle = {
 	overlay: {
 		position: "fixed",
@@ -154,7 +153,7 @@ const mypageModalStyle = {
 	},
 };
 
-const Map = ({ place, login, inputData }) => {
+const Map = ({ login, inputData }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 
@@ -164,6 +163,7 @@ const Map = ({ place, login, inputData }) => {
 	// 카페 정보
 	const [mapinfo, setMapinfo] = useState([]);
 	const [selectedStore, setSelectedStore] = useState({});
+	const [mark, setMark] = useState([]);
 
 	// 카페 정보 항목
 	const mapChange = (data) => {
@@ -176,7 +176,6 @@ const Map = ({ place, login, inputData }) => {
 			store.reviewData = res.data || {};
 			return store;
 		});
-
 
 		Promise.all(requestList).then((result) => {
 			setMapinfo(result);
@@ -199,8 +198,19 @@ const Map = ({ place, login, inputData }) => {
 		setBoo(!boo);
 	};
 
-	const mypageToggle = () => {
+	const reverseBooTest = () => {
+		setBoo(!boo);
+	};
+
+	const bookmarkHander = () => {
+		axios
+			.get(`${config.serverUrl}/users/bookmark`)
+			.then((res) => setMark(res.data));
+	};
+
+	const mypageToggle = (e) => {
 		setMypage(!mypage);
+		bookmarkHander();
 	};
 
 	return (
@@ -208,7 +218,7 @@ const Map = ({ place, login, inputData }) => {
 			<Modal
 				isOpen={boo}
 				style={cafeModalStyle}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={() => reverseBooTest()}
 				ariaHideApp={false}
 			>
 				<CafeModal reverseBoo={reverseBoo} store={selectedStore}></CafeModal>
@@ -219,7 +229,7 @@ const Map = ({ place, login, inputData }) => {
 				onRequestClose={() => mypageToggle()}
 				ariaHideApp={false}
 			>
-				<Mypage />
+				<Mypage mark={mark} />
 			</Modal>
 
 			<Nav>
@@ -246,5 +256,7 @@ const Map = ({ place, login, inputData }) => {
 		</MapSection>
 	);
 };
+
+Modal.setAppElement(Map);
 
 export default Map;
