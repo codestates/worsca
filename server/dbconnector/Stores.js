@@ -1,4 +1,5 @@
 const { sequelize, Store, Review } = require("../models");
+const { Op } = require("sequelize");
 
 //DB에 store_id에 맞는 매장데이터가 없을경우 처음으로 매장데이터를 생성해주는 함수
 const init = async (storeId) => {
@@ -24,7 +25,7 @@ const find = async (storeId, options = {}) => {
 	const include = [];
 
 	if (options.reviews === true) {
-		include.push(Review);
+		include.push({ model: Review, as: "reviews" });
 	}
 
 	const store = await Store.findOne({
@@ -32,16 +33,26 @@ const find = async (storeId, options = {}) => {
 		include,
 	});
 
-	return store === null
-		? null
-		: {
-				store_id: store.store_id,
-				owner_id: store.owner_id,
-				total_rating: store.total_rating,
-				total_decibel: store.total_decibel,
-				total_reviewers: store.total_reviewers,
-				reviews: store.Reviews,
-		  };
+	return store;
+};
+
+const findAll = async (storeIdList, options = {}) => {
+	const include = [];
+
+	if (options.reviews === true) {
+		include.push({ model: Review, as: "reviews" });
+	}
+
+	const storeList = await Store.findAll({
+		where: {
+			store_id: {
+				[Op.or]: storeIdList,
+			},
+		},
+		include,
+	});
+
+	return storeList;
 };
 
 //리뷰 합 계산
@@ -74,4 +85,5 @@ module.exports = {
 	init,
 	find,
 	calculateReview,
+	findAll,
 };

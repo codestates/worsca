@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 			});
 
 			models.Store.hasMany(models.Review, {
+				as: "reviews",
 				foreignKey: "store_id",
 				sourceKey: "store_id",
 			});
