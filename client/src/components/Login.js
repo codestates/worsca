@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
+import config from "../config";
 
 // ! 스타일
 const LoginPageSection = styled.div`
@@ -109,7 +110,7 @@ const Login = ({ loginHandler, login }) => {
 
 	const signUp = () => {
 		axios
-			.post("http://210.205.235.71/users/signin", loginInfo, {
+			.post(`${config.serverUrl}/users/signin`, loginInfo, {
 				// withCredentials: true,
 			})
 			.then((el) => loginHandler(el));

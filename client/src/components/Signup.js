@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/signup.png";
 import axios from "axios";
+import config from "../config";
 
 const SignupSection = styled.div`
 	display: flex;
@@ -101,7 +102,7 @@ const Signup = ({ login }) => {
 		e.preventDefault();
 
 		axios
-			.post("http://210.205.235.71/users/signup", userInfo)
+			.post(`${config.serverUrl}/users/signup`, userInfo)
 			.then(() => {
 				alert("회원가입 되었습니다! 로그인 해주세요.");
 			})
