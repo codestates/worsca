@@ -49,8 +49,11 @@ function App() {
 	const [userinfo, setUserinfo] = useState({});
 	// input data
 	const [inputData, setInputData] = useState("");
+	const [accessToken, setAccesstoken] = useState("");
 
 	const loginHandler = (data) => {
+		setAccesstoken(data.user.accessToken);
+		setUserinfo(data);
 		setLogin(!login);
 	};
 
@@ -76,7 +79,7 @@ function App() {
 					/>
 				</Route>
 				<Route exact path="/map">
-					<Map login={login} inputData={inputData} />
+					<Map login={login} inputData={inputData} accessToken={accessToken} />
 				</Route>
 				<Route exact path="/login">
 					<Login loginHandler={loginHandler} login={login} />
