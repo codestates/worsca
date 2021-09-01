@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import config from "../config";
 
 // img
 import coffee from "../img/coffee.jpg";
@@ -190,12 +191,8 @@ const ReviewBox = styled.form`
 	}
 `;
 
-const CafeModal = ({
-	reverseBoo,
-	cafeName,
-	cafeAdd,
-	review = { total_decibel: 0, total_rating: 3 },
-}) => {
+const CafeModal = ({ reverseBoo, store }) => {
+	const { reviewData } = store;
 	const [reviewTogle, setReview] = useState(false);
 	const [reviewInfo, setReviewInfo] = useState({
 		content: "",
@@ -207,18 +204,17 @@ const CafeModal = ({
 		setReviewInfo({ [key]: e.target.value });
 	};
 
-	console.log(review);
-
 	const onSubmit = (e) => {
 		e.preventDefault();
 		// 리뷰 값 보내기
-		axios.post(
-			`http://210.205.235.71/stores/${review.id}/reviews/`,
-			reviewInfo,
-			{
-				withCredentials: true,
-			}
-		);
+		axios
+			.post(`${config.serverUrl}/stores/${store.id}/reviews`, reviewInfo)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	// 문구 아이디 정할 랜덤 상수
@@ -226,15 +222,15 @@ const CafeModal = ({
 
 	// 카페 문구 배열
 	const description = [
-		`열정의 공간 ${cafeName}  Popping Up 
+		`열정의 공간 ${"cafeName"}  Popping Up 
 
 	커피를 사랑하는 우리 한국인들의 열정을 담고자 합니다. 
 	
 	바리스타 크루들의 열정과 낯설고 신선함을 모티브로 
 	
 	새로운 원두를 정기적으로 소개하며 소통하고자 합니다.`,
-		`${cafeName}는 품질과 혁신에 최선을 다하여 
-	${cafeName}를 찾는 모든 고객에게 최고의 커피 경험을 제공함으로 누구나
+		`${"cafeName"}는 품질과 혁신에 최선을 다하여 
+	${"cafeName"}를 찾는 모든 고객에게 최고의 커피 경험을 제공함으로 누구나
 	
 	마음껏 커피를 즐길 수 있는 커피 대중화의 선도적 역할을
 	수행하겠습니다.`,
@@ -243,8 +239,8 @@ const CafeModal = ({
 	return (
 		<CafeModalSection>
 			<CafeTitle>
-				<div className="title">{cafeName}</div>
-				<div className="btn" onClick={reverseBoo}>
+				<div className="title">{store.place_name}</div>
+				<div className="btn" onClick={() => reverseBoo(store)}>
 					❌
 				</div>
 			</CafeTitle>
@@ -261,40 +257,49 @@ const CafeModal = ({
 						<li>#스터디</li>
 					</ul>
 					<div className="sub_title">리뷰</div>
-					<div className="ratingBox">
-						<div className="ratingTitle">평점</div>
-						<div className="star">
-							<div className="yelloStar">
-								{/* {"★".repeat(review.total_rating / review.total_reviewers)} */}
-							</div>
-							<div className="blackStar">
-								{/* {"★".repeat(5 - review.total_rating / review.total_reviewers)} */}
-							</div>
-						</div>
-						<div className="ratingTitle">
-							<div className="ratingTitle">데시벨</div>
+					{reviewData.total_reviewers === 0 ||
+					reviewData.total_reviewers === undefined ? (
+						<div>등록된 리뷰가 없습니다.</div>
+					) : (
+						<div className="ratingBox">
+							<div className="ratingTitle">평점</div>
 							<div className="star">
 								<div className="yelloStar">
-									{"★".repeat(review.total_decibel / review.total_reviewers)}
+									{"★".repeat(
+										reviewData.total_rating / reviewData.total_reviewers
+									)}
 								</div>
 								<div className="blackStar">
 									{"★".repeat(
-										5 - review.total_decibel / review.total_reviewers
+										5 - reviewData.total_rating / reviewData.total_reviewers
+									)}
+								</div>
+							</div>
+							<div className="ratingTitle">데시벨</div>
+							<div className="star">
+								<div className="yelloStar">
+									{"★".repeat(
+										reviewData.total_decibel / reviewData.total_reviewers
+									)}
+								</div>
+								<div className="blackStar">
+									{"★".repeat(
+										5 - reviewData.total_decibel / reviewData.total_reviewers
 									)}
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</CafeSectionMenu>
 				<CafeSectionDesBox>
 					<div className="sub_title">카페 소개</div>
 					<div className="des">{description[0]}</div>
 
 					<div className="sub_title">주소</div>
-					<div className="address">{cafeAdd}</div>
+					<div className="address">{store.road_address_name}</div>
 					{reviewTogle ? (
 						// setReview(!reviewTogle)
-						<ReviewBox onSubmit={() => onSubmit}>
+						<ReviewBox onSubmit={onSubmit}>
 							<div className="title">리뷰 작성</div>
 							<input
 								type="number"
@@ -320,9 +325,9 @@ const CafeModal = ({
 							>
 								<img src={reviewImg} alt="review"></img>
 							</div>
-							<div className="homepage_btn btn">
+							<a className="homepage_btn btn" href={store.place_url}>
 								<img src={homepage} alt="homepage"></img>
-							</div>
+							</a>
 							<div className="insta_btn btn">
 								<img src={instagram} alt="instagram"></img>
 							</div>
