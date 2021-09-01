@@ -35,23 +35,27 @@ const add = async (email, storeId, contents, rating, decibel) => {
 	return [review, 1];
 };
 
-const update = async (id, contents, rating, decibel) => {
+const update = async (id, contents, rating, decibel, email) => {
 	const review = await findById(id);
-	if (review === undefined || review === null) {
+	if (review === undefined || review === null || review.user_email !== email) {
 		return null;
 	}
 	review.contents = contents;
 	review.rating = rating;
 	review.decibel = decibel;
-	review.save();
+	await review.save();
 
 	return review;
 };
 
 const removeById = async (id) => {
-	return await Review.destroy({
-		where: { id },
-	});
+	const review = await Review.findOne({ where: { id } });
+	if (review === null) {
+		return [{}, 0];
+	}
+	const { user_email, store_id } = review.dataValues;
+	await review.destroy();
+	return [{ user_email, store_id }, 1];
 };
 
 const removeByEmailAndStore = async (email, storeId) => {

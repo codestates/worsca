@@ -43,6 +43,8 @@ const addReview = async (req, res, next) => {
 			});
 		}
 
+		await Stores.calculateReview(storeId);
+
 		//result === 1;
 		res.status(201).json({
 			review,

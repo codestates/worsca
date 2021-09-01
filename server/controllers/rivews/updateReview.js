@@ -1,4 +1,6 @@
 const Reviews = require("../../dbconnector/Reviews");
+const Stores = require("../../dbconnector/Stores");
+
 const {
 	sendNotFoundReview,
 	sendUnauthorizedToken,
@@ -23,11 +25,19 @@ const updateReview = async (req, res, next) => {
 		const { contents, rating, decibel } = req.body;
 
 		//수정
-		const review = await Reviews.update(reviewId, contents, rating, decibel);
+		const review = await Reviews.update(
+			reviewId,
+			contents,
+			rating,
+			decibel,
+			user.email
+		);
 
 		if (review === null) {
 			return sendNotFoundReview(res);
 		}
+
+		await Stores.calculateReview(review.store_id);
 
 		res.status(200).json({
 			review,
