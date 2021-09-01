@@ -53,7 +53,7 @@ function App() {
 
 	const loginHandler = (data) => {
 		setAccesstoken(data.user.accessToken);
-		setUserinfo(data);
+		setUserinfo(data.user);
 		setLogin(!login);
 	};
 

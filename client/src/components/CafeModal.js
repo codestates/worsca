@@ -195,20 +195,24 @@ const CafeModal = ({ reverseBoo, store, accessToken }) => {
 	const { reviewData } = store;
 	const [reviewTogle, setReview] = useState(false);
 	const [reviewInfo, setReviewInfo] = useState({
-		content: "",
+		contents: "",
 		rating: 0,
 		decibel: 0,
 	});
 
 	const onClickReview = (key) => (e) => {
-		setReviewInfo({ [key]: e.target.value });
+		setReviewInfo({ ...reviewInfo, [key]: e.target.value });
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		// 리뷰 값 보내기
 		axios
-			.post(`${config.serverUrl}/stores/${store.id}/reviews`, reviewInfo)
+			.post(`${config.serverUrl}/stores/${store.id}/reviews`, reviewInfo, {
+				headers: {
+					authorization: `bearer ${accessToken}`,
+				},
+			})
 			.then((res) => {
 				console.log(res);
 			})
