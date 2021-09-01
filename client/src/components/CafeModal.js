@@ -8,7 +8,7 @@ import coffee1 from "../img/coffee1.jpg";
 import coffee2 from "../img/coffee2.jpg";
 import homepage from "../img/homepage.png";
 import instagram from "../img/instagram.png";
-import review from "../img/review.png";
+import reviewImg from "../img/review.png";
 
 const CafeModalSection = styled.div`
 	display: flex;
@@ -190,48 +190,36 @@ const ReviewBox = styled.form`
 	}
 `;
 
-const CafeModal = ({ reverseBoo, cafeName, cafeAdd }) => {
+const CafeModal = ({
+	reverseBoo,
+	cafeName,
+	cafeAdd,
+	review = { total_decibel: 0, total_rating: 3 },
+}) => {
 	const [reviewTogle, setReview] = useState(false);
 	const [reviewInfo, setReviewInfo] = useState({
-		contents: "",
-		rating: "",
-		decibel: "",
+		content: "",
+		rating: 0,
+		decibel: 0,
 	});
-	const [store, setStore] = useState(1);
-	const [star, setStar] = useState({
-		rating: 5,
-		decibel: 3,
-	});
-	const [stordId, setStoreId] = useState("");
 
 	const onClickReview = (key) => (e) => {
 		setReviewInfo({ [key]: e.target.value });
 	};
 
+	console.log(review);
+
 	const onSubmit = (e) => {
 		e.preventDefault();
 		// 리뷰 값 보내기
 		axios.post(
-			"http://210.205.235.71/stores/186032184/reviews/ooyhy123a@naver.com",
+			`http://210.205.235.71/stores/${review.id}/reviews/`,
 			reviewInfo,
-			{ withCredentials: true }
+			{
+				withCredentials: true,
+			}
 		);
 	};
-
-	// 스토어안에 리뷰개수 받아오기
-	// axios
-	// 	.get("http://210.205.235.71/stores/:storeId")
-	// 	.then((res) => res.data)
-	// 	.then((data) => setStore(data.length));
-
-	// // 리뷰 값 받아서 적용하기
-	// // 리뷰 총합 / 리뷰 개수
-	// axios
-	// 	.get("http://210.205.235.71/stores/:storeId")
-	// 	.then((res) => res.data)
-	// 	.then((data) => {
-	// 		setStar({ rating: data.rating / store, decibel: data.decibel / store });
-	// 	});
 
 	// 문구 아이디 정할 랜덤 상수
 	const randomNum = Math.floor(Math.random() * 2);
@@ -276,14 +264,24 @@ const CafeModal = ({ reverseBoo, cafeName, cafeAdd }) => {
 					<div className="ratingBox">
 						<div className="ratingTitle">평점</div>
 						<div className="star">
-							<div className="yelloStar">{"★".repeat(star.rating)}</div>
-							<div className="blackStar">{"★".repeat(5 - star.rating)}</div>
+							<div className="yelloStar">
+								{/* {"★".repeat(review.total_rating / review.total_reviewers)} */}
+							</div>
+							<div className="blackStar">
+								{/* {"★".repeat(5 - review.total_rating / review.total_reviewers)} */}
+							</div>
 						</div>
 						<div className="ratingTitle">
 							<div className="ratingTitle">데시벨</div>
 							<div className="star">
-								<div className="yelloStar">{"★".repeat(star.decibel)}</div>
-								<div className="blackStar">{"★".repeat(5 - star.decibel)}</div>
+								<div className="yelloStar">
+									{"★".repeat(review.total_decibel / review.total_reviewers)}
+								</div>
+								<div className="blackStar">
+									{"★".repeat(
+										5 - review.total_decibel / review.total_reviewers
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -296,7 +294,7 @@ const CafeModal = ({ reverseBoo, cafeName, cafeAdd }) => {
 					<div className="address">{cafeAdd}</div>
 					{reviewTogle ? (
 						// setReview(!reviewTogle)
-						<ReviewBox onSubmit={() => onSubmit()}>
+						<ReviewBox onSubmit={() => onSubmit}>
 							<div className="title">리뷰 작성</div>
 							<input
 								type="number"
@@ -320,7 +318,7 @@ const CafeModal = ({ reverseBoo, cafeName, cafeAdd }) => {
 								className="review_btn btn"
 								onClick={() => setReview(!reviewTogle)}
 							>
-								<img src={review} alt="review"></img>
+								<img src={reviewImg} alt="review"></img>
 							</div>
 							<div className="homepage_btn btn">
 								<img src={homepage} alt="homepage"></img>

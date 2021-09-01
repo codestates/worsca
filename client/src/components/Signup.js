@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/signup.png";
 import axios from "axios";
@@ -75,7 +75,7 @@ const SignupBtn = styled.div`
 	}
 `;
 
-const Signup = () => {
+const Signup = ({ login }) => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
 		nickname: "",
@@ -98,6 +98,7 @@ const Signup = () => {
 		// 비밀번호 / 비밀번호 확인 동일검사
 		// 1 . password_re 만들어서 일치 불일치 확인
 		// 2 . input창에 password가 불일치할때 false
+		e.preventDefault();
 
 		axios
 			.post("http://210.205.235.71/users/signup", userInfo)
@@ -105,12 +106,13 @@ const Signup = () => {
 				alert("회원가입 되었습니다! 로그인 해주세요.");
 			})
 			.then(() => {
-				return history.push("http://localhost:3000/login");
+				return history.push("/login");
 			});
 	};
 
 	return (
 		<SignupSection>
+			{login && <Redirect to="/" />}
 			<ImageBox>
 				<Link to="/">
 					<img src={logo} alt="worsca" className="main__title__text"></img>
