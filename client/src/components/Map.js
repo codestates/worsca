@@ -163,6 +163,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 	// 카페 정보
 	const [mapinfo, setMapinfo] = useState([]);
 	const [selectedStore, setSelectedStore] = useState({});
+	const [mark, setMark] = useState([]);
 
 	// 카페 정보 항목
 	const mapChange = async (data) => {
@@ -173,6 +174,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 		const storeIdList = data.map((store) => {
 			return store.id;
 		});
+
 
 		const requestList = await axios
 			.post(`${config.serverUrl}/stores`, {
@@ -206,8 +208,19 @@ const Map = ({ place, login, inputData, accessToken }) => {
 		setBoo(!boo);
 	};
 
-	const mypageToggle = () => {
+	const reverseBooTest = () => {
+		setBoo(!boo);
+	};
+
+	const bookmarkHander = () => {
+		axios
+			.get(`${config.serverUrl}/users/bookmark`)
+			.then((res) => setMark(res.data));
+	};
+
+	const mypageToggle = (e) => {
 		setMypage(!mypage);
+		bookmarkHander();
 	};
 
 	return (
@@ -215,7 +228,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 			<Modal
 				isOpen={boo}
 				style={cafeModalStyle}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={() => reverseBooTest()}
 				ariaHideApp={false}
 			>
 				<CafeModal
@@ -230,7 +243,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 				onRequestClose={() => mypageToggle()}
 				ariaHideApp={false}
 			>
-				<Mypage accessToken={accessToken} />
+				<Mypage accessToken={accessToken} mark={mark} />
 			</Modal>
 
 			<Nav>
@@ -257,5 +270,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 		</MapSection>
 	);
 };
+
+Modal.setAppElement(Map);
 
 export default Map;

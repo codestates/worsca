@@ -23,6 +23,10 @@ const CafeSection = styled.div`
 		display: flex;
 		justify-content: space-between;
 	}
+	.main_title {
+		display: flex;
+		justify-content: space-between;
+	}
 	.title {
 		cursor: pointer;
 		font-size: 1.3rem;
@@ -47,7 +51,7 @@ const Rating = styled.div`
 	}
 `;
 
-const Cafepage = ({ reverseBoo, data = {} }) => {
+const Cafepage = ({ reverseBoo, data = "none" }) => {
 	const { reviewData } = data;
 
 	const [like_btn, setlike_btn] = useState(true);
@@ -71,19 +75,21 @@ const Cafepage = ({ reverseBoo, data = {} }) => {
 
 	return (
 		<CafeSection onClick={() => reverseBoo(data)}>
-			<div className="title">{data.place_name}</div>
-			<div className="like_btn">
-				{like_btn === true ? (
-					<StarOutlined
-						onClick={onClick}
-						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
-					/>
-				) : (
-					<StarFilled
-						onClick={onClick}
-						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
-					/>
-				)}
+			<div className="main_title">
+				<div className="title">{data.place_name}</div>
+				<div className="like_btn">
+					{like_btn === true ? (
+						<StarOutlined
+							onClick={onClick}
+							style={{ fontSize: "1.5rem", color: "#38d9a9" }}
+						/>
+					) : (
+						<StarFilled
+							onClick={onClick}
+							style={{ fontSize: "1.5rem", color: "#38d9a9" }}
+						/>
+					)}
+				</div>
 			</div>
 			{reviewData.total_reviewers === 0 ||
 			reviewData.total_reviewers === undefined ? (

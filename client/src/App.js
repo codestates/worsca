@@ -62,6 +62,7 @@ function App() {
 	}, [login]);
 
 	const inputHandler = (data) => {
+		setUserinfo(data);
 		setInputData(data);
 	};
 
