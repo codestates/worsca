@@ -191,7 +191,7 @@ const ReviewBox = styled.form`
 	}
 `;
 
-const CafeModal = ({ reverseBoo, store }) => {
+const CafeModal = ({ reverseBoo, store, accessToken }) => {
 	const { reviewData } = store;
 	const [reviewTogle, setReview] = useState(false);
 	const [reviewInfo, setReviewInfo] = useState({

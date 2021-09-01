@@ -98,7 +98,6 @@ const CafeBox = styled.div`
 	}
 `;
 
-
 const cafeModalStyle = {
 	overlay: {
 		position: "fixed",
@@ -154,7 +153,7 @@ const mypageModalStyle = {
 	},
 };
 
-const Map = ({ place, login, inputData }) => {
+const Map = ({ place, login, inputData, accessToken }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 
@@ -166,21 +165,29 @@ const Map = ({ place, login, inputData }) => {
 	const [selectedStore, setSelectedStore] = useState({});
 
 	// 카페 정보 항목
-	const mapChange = (data) => {
+	const mapChange = async (data) => {
 		// total_decibel: 2
 		// total_rating: 3
 		// total_reviewers: 1
 		// 스토어안에 리뷰개수 받아오기
-		const requestList = data.map(async (store) => {
-			const res = await axios.get(`${config.serverUrl}/stores/${store.id}`);
-			store.reviewData = res.data || {};
+		const storeIdList = data.map((store) => {
+			return store.id;
+		});
+
+		const requestList = await axios
+			.post(`${config.serverUrl}/stores`, {
+				storeList: storeIdList,
+			})
+			.then((res) => res.data);
+
+		const newMapinfo = data.map((store) => {
+			const storeInDB = requestList.stores.find((reqStore) => {
+				return store.id === String(reqStore.store_id);
+			});
+			store.reviewData = storeInDB || {};
 			return store;
 		});
-
-
-		Promise.all(requestList).then((result) => {
-			setMapinfo(result);
-		});
+		setMapinfo(newMapinfo);
 	};
 
 	const onChange = (e) => {
@@ -211,7 +218,11 @@ const Map = ({ place, login, inputData }) => {
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}
 			>
-				<CafeModal reverseBoo={reverseBoo} store={selectedStore}></CafeModal>
+				<CafeModal
+					reverseBoo={reverseBoo}
+					store={selectedStore}
+					accessToken={accessToken}
+				></CafeModal>
 			</Modal>
 			<Modal
 				isOpen={mypage}
@@ -219,7 +230,7 @@ const Map = ({ place, login, inputData }) => {
 				onRequestClose={() => mypageToggle()}
 				ariaHideApp={false}
 			>
-				<Mypage />
+				<Mypage accessToken={accessToken} />
 			</Modal>
 
 			<Nav>

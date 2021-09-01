@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
+import config from "../config";
 
 // ! 스타일
 const LoginPageSection = styled.div`
@@ -107,10 +108,10 @@ const Login = ({ loginHandler, login }) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
 	};
 
-	const signUp = () => {
+	const onSignIn = () => {
 		axios
-			.post("http://210.205.235.71/users/signin", loginInfo, {
-				// withCredentials: true,
+			.post(`${config.serverUrl}/users/signin`, loginInfo, {
+				withCredentials: true,
 			})
 			.then((el) => loginHandler(el));
 		if (!loginInfo.email || !loginInfo.password) {
@@ -142,7 +143,7 @@ const Login = ({ loginHandler, login }) => {
 				/>
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
-					<button className="btn" onClick={signUp}>
+					<button className="btn" onClick={onSignIn}>
 						LogIn
 					</button>
 					<button className="btn signup-btn">
