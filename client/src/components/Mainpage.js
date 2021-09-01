@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Route, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
+
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -94,22 +95,39 @@ const BtnBox = styled.div`
 	}
 `;
 
-// ! 이벤트 핸들러
-const searchValue = (e) => {
-	console.log(e.target.value);
-};
-
 // 메인 인풋창에 value를 상태로 관리해야한다.
 // 인풋창이 submit하면 => map창으로 이동
 // 인풋창의 value를 map.js에서 결과값으로 가져온다.
 
-const Mainpage = () => {
+const Mainpage = ({ login, loginHandler, placeHandler }) => {
+	const [InputText, setInputText] = useState("");
+	const [Place, setPlace] = useState("");
+	const history = useHistory();
+
+	const onChange = (e) => {
+		setInputText(e.target.value);
+	};
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+		setPlace(e.InputText);
+		setInputText("");
+		placeHandler(Place);
+		history.push("/map");
+	};
+
 	return (
 		<>
 			<BtnBox>
-				<Link className="btn" to="/login">
-					Login
-				</Link>
+				{!login ? (
+					<Link className="btn" to="/login">
+						Login
+					</Link>
+				) : (
+					<div className="btn" onClick={loginHandler}>
+						Logout
+					</div>
+				)}
 			</BtnBox>
 			<MainpageSection>
 				<MainTitle>
@@ -117,15 +135,16 @@ const Mainpage = () => {
 						<img src={logo} alt="worsca" className="main__title__text"></img>
 					</Link>
 				</MainTitle>
-				<Link>
-					<MainSearchbar>
+				<Route to="/map">
+					<MainSearchbar onSubmit={onSubmit}>
 						<input
 							placeholder="가고싶은 장소를 적어주세요"
-							onChange={(e) => searchValue(e)}
+							value={InputText}
+							onChange={onChange}
 						/>
 						<button>Q</button>
 					</MainSearchbar>
-				</Link>
+				</Route>
 				<video autoPlay muted loop>
 					<source src={video} type="video/mp4"></source>
 				</video>

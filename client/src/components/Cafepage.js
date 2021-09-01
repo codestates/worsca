@@ -47,8 +47,8 @@ const Rating = styled.div`
 	}
 `;
 
-const Cafepage = ({ reverseBoo, data = "none" }) => {
-  const [like_btn, setlike_btn] = useState(true);
+const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
+	const [like_btn, setlike_btn] = useState(true);
 	const onClick = () => {
 		// 엑시오스 통신을 보내주면 될것 같다.
 		// 북마크 true or false로
@@ -56,7 +56,7 @@ const Cafepage = ({ reverseBoo, data = "none" }) => {
 
 		like_btn ? setlike_btn(false) : setlike_btn(true);
 	};
-  
+
 	// 문구 아이디 정할 랜덤 상수
 	const randomNum = Math.floor(Math.random() * 3);
 
@@ -67,33 +67,11 @@ const Cafepage = ({ reverseBoo, data = "none" }) => {
 		`커피싸고 뷰좋음!!`,
 	];
 
-	const [store, setStore] = useState(1);
-	const [star, setStar] = useState({
-		rating: 4,
-	});
-
-	// 스토어안에 리뷰개수 받아오기
-	axios
-		.get("http://localhost:3000/stores/:storeId/reviews")
-		.then((res) => res.data)
-		.then((data) => setStore(data.length));
-
-	// 리뷰 값 받아서 적용하기
-	// 리뷰 총합 / 리뷰 개수
-	axios
-		.get("http://localhost:3000/stores/:storeId/reviews")
-		.then((res) => res.data)
-		.then((data) => {
-			const rating = data.rating.reduce((a, c) => a + c);
-			setStar({ rating: rating / store });
-		});
-
 	return (
 		<CafeSection onClick={() => reverseBoo(data)}>
 			<div className="title" onClick={reverseBoo}>
-				스타빅스
+				{data.place_name}
 			</div>
-      // Like_BTN부분
 			<div className="like_btn">
 				{like_btn === true ? (
 					<StarOutlined
@@ -106,10 +84,12 @@ const Cafepage = ({ reverseBoo, data = "none" }) => {
 						style={{ fontSize: "1.5rem", color: "#38d9a9" }}
 					/>
 				)}
-      </div>
+			</div>
 			<Rating>
 				<div className="rating_title">평점</div>
-				<div className="star">{"★".repeat(star.rating)}</div>
+				<div className="star">
+					{/* {"★".repeat(ratingStar.total_rating / ratingStar.total_reviewers)} */}
+				</div>
 			</Rating>
 			<div className="description">{description[0]}</div>
 		</CafeSection>

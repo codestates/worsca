@@ -9,6 +9,7 @@ import Modal from "react-modal";
 import CafeModal from "./CafeModal";
 import Mypage from "./Mypage";
 import Can from "./Can";
+import axios from "axios";
 
 const MapSection = styled.div`
 	display: flex;
@@ -103,14 +104,31 @@ const Map = () => {
 
 	const [InputText, setInputText] = useState("");
 	const [Place, setPlace] = useState("");
+
 	// 카페 정보
 	const [mapinfo, setMapinfo] = useState([]);
 	const [cafeName, setCafeName] = useState("");
 	const [cafeAdd, setCafeAdd] = useState("");
+	const [review, setReview] = useState({
+		total_decibel: 2,
+		total_rating: 3,
+		total_reviewers: 1,
+	});
 
 	// 카페 정보 항목
-	const mapChange = (data) => {
+	const mapChange = async (data) => {
+		// total_decibel: 2
+		// total_rating: 3
+		// total_reviewers: 1
+		// 스토어안에 리뷰개수 받아오기
+		await data.map((el) => {
+			axios.get(`http://210.205.235.71/stores/${el.id}`).then((res) => {
+				el.reviewData = res.data;
+			});
+		});
+
 		setMapinfo(data);
+		console.log(data);
 	};
 
 	const onChange = (e) => {
@@ -127,13 +145,14 @@ const Map = () => {
 	const reverseBoo = (data = "none") => {
 		setCafeAdd(data.address_name);
 		setCafeName(data.place_name);
+		setReview(data.reviewList);
 		setBoo(!boo);
 	};
 
 	const mypageToggle = () => {
 		setMypage(!mypage);
 	};
-
+	// console.log(place);
 	return (
 		<MapSection>
 			<Modal
@@ -171,6 +190,7 @@ const Map = () => {
 					reverseBoo={reverseBoo}
 					cafeName={cafeName}
 					cafeAdd={cafeAdd}
+					review={review}
 				></CafeModal>
 			</Modal>
 			<Modal
@@ -226,7 +246,13 @@ const Map = () => {
 			<Can searchPlace={Place} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
-					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;
+					return (
+						<Cafepage
+							data={data}
+							reverseBoo={reverseBoo}
+							ratingStar={data.reviewList}
+						></Cafepage>
+					);
 				})}
 			</CafeBox>
 		</MapSection>
