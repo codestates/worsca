@@ -9,7 +9,9 @@ const getAllStoreInfo = async (req, res, next) => {
 
 		const stores = await Stores.findAll(storeList, { reviews: true });
 
-		return res.json(stores);
+		return res.json({
+			stores,
+		});
 	} catch (err) {
 		next(err);
 	}
