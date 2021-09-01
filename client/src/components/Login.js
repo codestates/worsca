@@ -108,10 +108,10 @@ const Login = ({ loginHandler, login }) => {
 		setLoginInfo({ ...loginInfo, [key]: e.target.value });
 	};
 
-	const signUp = () => {
+	const onSignIn = () => {
 		axios
 			.post(`${config.serverUrl}/users/signin`, loginInfo, {
-				// withCredentials: true,
+				withCredentials: true,
 			})
 			.then((el) => loginHandler(el));
 		if (!loginInfo.email || !loginInfo.password) {
@@ -143,7 +143,7 @@ const Login = ({ loginHandler, login }) => {
 				/>
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
 				<div>
-					<button className="btn" onClick={signUp}>
+					<button className="btn" onClick={onSignIn}>
 						LogIn
 					</button>
 					<button className="btn signup-btn">

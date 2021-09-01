@@ -153,7 +153,7 @@ const mypageModalStyle = {
 	},
 };
 
-const Map = ({ place, login, inputData }) => {
+const Map = ({ place, login, inputData, accessToken }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 
@@ -218,7 +218,11 @@ const Map = ({ place, login, inputData }) => {
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}
 			>
-				<CafeModal reverseBoo={reverseBoo} store={selectedStore}></CafeModal>
+				<CafeModal
+					reverseBoo={reverseBoo}
+					store={selectedStore}
+					accessToken={accessToken}
+				></CafeModal>
 			</Modal>
 			<Modal
 				isOpen={mypage}
@@ -226,7 +230,7 @@ const Map = ({ place, login, inputData }) => {
 				onRequestClose={() => mypageToggle()}
 				ariaHideApp={false}
 			>
-				<Mypage />
+				<Mypage accessToken={accessToken} />
 			</Modal>
 
 			<Nav>
