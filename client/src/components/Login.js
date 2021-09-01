@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
 
@@ -96,7 +96,7 @@ const LoginBox = styled.form`
 	}
 `;
 
-const Login = () => {
+const Login = ({ loginHandler, login }) => {
 	const [loginInfo, setLoginInfo] = useState({
 		email: "",
 		password: "",
@@ -112,7 +112,7 @@ const Login = () => {
 			.post("http://210.205.235.71/users/signin", loginInfo, {
 				// withCredentials: true,
 			})
-			.then((el) => console.log(el));
+			.then((el) => loginHandler(el));
 		if (!loginInfo.email || !loginInfo.password) {
 			setErrorMessage("이메일과 비밀번호를 입력하세요");
 			return;
@@ -122,6 +122,7 @@ const Login = () => {
 	// const clickLogin = () => {};
 	return (
 		<LoginPageSection>
+			{login && <Redirect to="/" />}
 			<video autoPlay muted loop>
 				<source src={video} type="video/mp4"></source>
 			</video>

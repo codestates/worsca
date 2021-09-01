@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Mainpage from "./components/Mainpage";
@@ -42,21 +42,46 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App() {
+	const [login, setLogin] = useState(
+		window.localStorage.getItem("login") || false
+	);
+	// userinfo
+	const [userinfo, setUserinfo] = useState({});
+	const [place, setPlace] = useState("");
+
+	const loginHandler = (data) => {
+		setUserinfo(data);
+		setLogin(!login);
+	};
+
+	const placeHandler = (data) => {
+		setPlace(data);
+	};
+
+	useEffect(() => {
+		window.localStorage.setItem("login", login);
+	}, [login]);
+
 	return (
 		<Router>
 			<GlobalStyles />
 			<Switch>
 				<Route exact path="/">
-					<Mainpage />
+					<Mainpage
+						login={login}
+						userinfo={userinfo}
+						loginHandler={loginHandler}
+						placeHandler={placeHandler}
+					/>
 				</Route>
 				<Route exact path="/map">
-					<Map />
+					<Map place={place} />
 				</Route>
 				<Route exact path="/login">
-					<Login />
+					<Login loginHandler={loginHandler} login={login} />
 				</Route>
 				<Route exact path="/signup">
-					<Signup />
+					<Signup login={login} />
 				</Route>
 			</Switch>
 		</Router>
