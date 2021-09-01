@@ -113,7 +113,7 @@ const Login = ({ loginHandler, login }) => {
 			.post(`${config.serverUrl}/users/signin`, loginInfo, {
 				withCredentials: true,
 			})
-			.then((el) => loginHandler(el));
+			.then((res) => loginHandler(res.data));
 		if (!loginInfo.email || !loginInfo.password) {
 			setErrorMessage("이메일과 비밀번호를 입력하세요");
 			return;

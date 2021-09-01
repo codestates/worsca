@@ -124,7 +124,12 @@ const Mainpage = ({ login, loginHandler, inputHandler }) => {
 						Login
 					</Link>
 				) : (
-					<div className="btn" onClick={loginHandler}>
+					<div
+						className="btn"
+						onClick={() => {
+							loginHandler({ user: { accessToken: "" } });
+						}}
+					>
 						Logout
 					</div>
 				)}
