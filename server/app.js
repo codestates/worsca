@@ -1,16 +1,19 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
 //import router
 const usersRouter = require("./routes/users");
 const storesRouter = require("./routes/stores");
-const dotenv = require("dotenv");
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(core());
 
 //요청 확인 로그 미들웨어
 app.use((req, res, next) => {
@@ -37,5 +40,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(8080, () => {
-	console.log("서버 시작");
+	console.log("Worsca 서버 구동중 ...");
 });
