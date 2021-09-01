@@ -1,4 +1,6 @@
 const Reviews = require("../../dbconnector/Reviews");
+const Stores = require("../../dbconnector/Stores");
+
 const {
 	sendNotFoundReview,
 	sendUnauthorizedToken,
@@ -16,11 +18,13 @@ const deleteReview = async (req, res, next) => {
 
 	//삭제
 	try {
-		const result = await Reviews.removeById(reviewId);
+		const [reviewInfo, result] = await Reviews.removeById(reviewId);
 
 		if (result === 0) {
 			return sendNotFoundReview(res);
 		}
+
+		await Stores.calculateReview(reviewInfo.store_id);
 
 		res.status(200).json({
 			message: "리뷰가 삭제되었습니다.",
