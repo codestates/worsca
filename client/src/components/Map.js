@@ -98,6 +98,7 @@ const CafeBox = styled.div`
 	}
 `;
 
+
 const cafeModalStyle = {
 	overlay: {
 		position: "fixed",
@@ -153,10 +154,9 @@ const mypageModalStyle = {
 	},
 };
 
-const Map = ({ place }) => {
+const Map = ({ place, login, inputData }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
-	const [login, setLogin] = useState(false);
 
 	const [InputText, setInputText] = useState("");
 	const [Place, setPlace] = useState("");
@@ -176,6 +176,7 @@ const Map = ({ place }) => {
 			store.reviewData = res.data || {};
 			return store;
 		});
+
 
 		Promise.all(requestList).then((result) => {
 			setMapinfo(result);
@@ -201,6 +202,7 @@ const Map = ({ place }) => {
 	const mypageToggle = () => {
 		setMypage(!mypage);
 	};
+
 	return (
 		<MapSection>
 			<Modal
@@ -228,14 +230,14 @@ const Map = ({ place }) => {
 					<SearchBox className="inputForm" onSubmit={handleSubmit}>
 						<input placeholder="검색" onChange={onChange} value={InputText} />
 					</SearchBox>
-					{!login ? (
+					{login ? (
 						<img onClick={mypageToggle} src={hamburger} alt="worsca"></img>
 					) : (
 						<Redirect to="/login" />
 					)}
 				</NavBtn>
 			</Nav>
-			<Can searchPlace={Place} mapChange={mapChange} />
+			<Can searchPlace={Place || inputData} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
 					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;
