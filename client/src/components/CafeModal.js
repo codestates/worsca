@@ -217,7 +217,9 @@ const CafeModal = ({ reverseBoo, store, accessToken }) => {
 		// 리뷰 값 보내기
 		axios
 			.post(`${config.serverUrl}/stores/${store.id}/reviews`, reviewInfo, {
-				headers: { authorization: `bearer ${accessToken}` },
+				headers: {
+					authorization: `bearer ${accessToken}`,
+				},
 			})
 			.then((res) => {
 				console.log(res);

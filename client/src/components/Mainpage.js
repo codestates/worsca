@@ -129,6 +129,7 @@ const Mainpage = ({ login, loginHandler, inputHandler }) => {
 				) : (
 					<div
 						className="btn logout_btn"
+    
 						onClick={() => {
 							loginHandler({ user: { accessToken: "" } });
 						}}
