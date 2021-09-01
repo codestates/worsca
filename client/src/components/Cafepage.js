@@ -47,7 +47,9 @@ const Rating = styled.div`
 	}
 `;
 
-const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
+const Cafepage = ({ reverseBoo, data = {} }) => {
+	const { reviewData } = data;
+
 	const [like_btn, setlike_btn] = useState(true);
 	const onClick = () => {
 		// 엑시오스 통신을 보내주면 될것 같다.
@@ -69,9 +71,7 @@ const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
 
 	return (
 		<CafeSection onClick={() => reverseBoo(data)}>
-			<div className="title" onClick={reverseBoo}>
-				{data.place_name}
-			</div>
+			<div className="title">{data.place_name}</div>
 			<div className="like_btn">
 				{like_btn === true ? (
 					<StarOutlined
@@ -85,12 +85,19 @@ const Cafepage = ({ reverseBoo, data = "none", ratingStar = "none" }) => {
 					/>
 				)}
 			</div>
-			<Rating>
-				<div className="rating_title">평점</div>
-				<div className="star">
-					{/* {"★".repeat(ratingStar.total_rating / ratingStar.total_reviewers)} */}
-				</div>
-			</Rating>
+			{reviewData.total_reviewers === 0 ||
+			reviewData.total_reviewers === undefined ? (
+				<Rating>
+					<div className="rating_title">리뷰가 없습니다.</div>
+				</Rating>
+			) : (
+				<Rating>
+					<div className="rating_title">평점</div>
+					<div className="star">
+						{"★".repeat(reviewData.total_rating / reviewData.total_reviewers)}
+					</div>
+				</Rating>
+			)}
 			<div className="description">{description[0]}</div>
 		</CafeSection>
 	);
