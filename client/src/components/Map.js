@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
+import config from "../config";
 
 import styled from "styled-components";
 import logo from "../img/worsca.png";
@@ -97,7 +98,63 @@ const CafeBox = styled.div`
 	}
 `;
 
-const Map = ({ login, inputData }) => {
+
+const cafeModalStyle = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.75)",
+		zIndex: 2,
+	},
+	content: {
+		position: "absolute",
+		top: "80px",
+		left: "80px",
+		right: "80px",
+		bottom: "80px",
+		border: "1px solid #ccc",
+		background: "#fff",
+		overflow: "auto",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "20px",
+		zIndex: 2,
+	},
+};
+
+const mypageModalStyle = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "none",
+		zIndex: 2,
+	},
+	content: {
+		position: "absolute",
+		minWidth: "400px",
+		top: "60px",
+		left: "75vw",
+		right: "10px",
+		bottom: "210px",
+		border: "1px solid #ccc",
+		background: "#fff",
+		overflow: "auto",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0",
+		zIndex: 2,
+	},
+};
+
+const Map = ({ place, login, inputData }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 
@@ -106,28 +163,24 @@ const Map = ({ login, inputData }) => {
 
 	// 카페 정보
 	const [mapinfo, setMapinfo] = useState([]);
-	const [cafeName, setCafeName] = useState("");
-	const [cafeAdd, setCafeAdd] = useState("");
-	const [review, setReview] = useState({
-		total_decibel: 2,
-		total_rating: 3,
-		total_reviewers: 1,
-	});
+	const [selectedStore, setSelectedStore] = useState({});
 
 	// 카페 정보 항목
-	const mapChange = async (data) => {
+	const mapChange = (data) => {
 		// total_decibel: 2
 		// total_rating: 3
 		// total_reviewers: 1
 		// 스토어안에 리뷰개수 받아오기
-		await data.map((el) => {
-			axios.get(`http://210.205.235.71/stores/${el.id}`).then((res) => {
-				el.reviewData = res.data;
-			});
+		const requestList = data.map(async (store) => {
+			const res = await axios.get(`${config.serverUrl}/stores/${store.id}`);
+			store.reviewData = res.data || {};
+			return store;
 		});
 
-		setMapinfo(data);
-		// console.log(data);
+
+		Promise.all(requestList).then((result) => {
+			setMapinfo(result);
+		});
 	};
 
 	const onChange = (e) => {
@@ -141,10 +194,8 @@ const Map = ({ login, inputData }) => {
 	};
 
 	// handler
-	const reverseBoo = (data = "none") => {
-		setCafeAdd(data.address_name);
-		setCafeName(data.place_name);
-		setReview(data.reviewList);
+	const reverseBoo = (data = {}) => {
+		setSelectedStore(data);
 		setBoo(!boo);
 	};
 
@@ -156,71 +207,15 @@ const Map = ({ login, inputData }) => {
 		<MapSection>
 			<Modal
 				isOpen={boo}
-				style={{
-					overlay: {
-						position: "fixed",
-						top: 0,
-						left: 0,
-						right: 0,
-						bottom: 0,
-						backgroundColor: "rgba(255, 255, 255, 0.75)",
-						zIndex: 2,
-					},
-					content: {
-						position: "absolute",
-						top: "80px",
-						left: "80px",
-						right: "80px",
-						bottom: "80px",
-						border: "1px solid #ccc",
-						background: "#fff",
-						overflow: "auto",
-						WebkitOverflowScrolling: "touch",
-						borderRadius: "4px",
-						outline: "none",
-						padding: "20px",
-						zIndex: 2,
-					},
-				}}
+				style={cafeModalStyle}
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}
 			>
-				<CafeModal
-					reverseBoo={reverseBoo}
-					cafeName={cafeName}
-					cafeAdd={cafeAdd}
-					review={review}
-				></CafeModal>
+				<CafeModal reverseBoo={reverseBoo} store={selectedStore}></CafeModal>
 			</Modal>
 			<Modal
 				isOpen={mypage}
-				style={{
-					overlay: {
-						position: "fixed",
-						top: 0,
-						left: 0,
-						right: 0,
-						bottom: 0,
-						backgroundColor: "none",
-						zIndex: 2,
-					},
-					content: {
-						position: "absolute",
-						minWidth: "400px",
-						top: "60px",
-						left: "75vw",
-						right: "10px",
-						bottom: "210px",
-						border: "1px solid #ccc",
-						background: "#fff",
-						overflow: "auto",
-						WebkitOverflowScrolling: "touch",
-						borderRadius: "4px",
-						outline: "none",
-						padding: "0",
-						zIndex: 2,
-					},
-				}}
+				style={mypageModalStyle}
 				onRequestClose={() => mypageToggle()}
 				ariaHideApp={false}
 			>
@@ -245,13 +240,7 @@ const Map = ({ login, inputData }) => {
 			<Can searchPlace={Place || inputData} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
-					return (
-						<Cafepage
-							data={data}
-							reverseBoo={reverseBoo}
-							ratingStar={data.reviewList}
-						></Cafepage>
-					);
+					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;
 				})}
 			</CafeBox>
 		</MapSection>
