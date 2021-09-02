@@ -17,7 +17,7 @@
 - 디테일한 카페 정보들로 카페를 알아볼 수 있어요
 
 ## DB Schema
-![ㄴ](https://user-images.githubusercontent.com/79843401/130583648-b043b561-5199-4db6-be6c-a9ac2c0eaf69.png)
+![worsca](https://user-images.githubusercontent.com/78804014/131869454-c3d587b4-c573-41a4-98d0-4ae55e6cb1de.png)
 
 ## Deployment Architecture
 ![아키텍처](https://user-images.githubusercontent.com/68473415/131804454-7645807d-865a-49a9-a592-ebd60b64b7f7.png)
