@@ -1,5 +1,5 @@
 ## 프로젝트 소개
-< Worsca: worker&study&caffe >
+< Worsca: work&study&caffe >
 
 커피한잔의 여유와 일을 동시에 할 수있는 최적의 카페 공간은 없을까? 서울시 최적의 카페에 정보를 알려드립니다.
 
