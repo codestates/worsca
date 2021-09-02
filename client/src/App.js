@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
-import Mainpage from "./components/Mainpage";
-import Signup from "./components/Signup";
-import Login from "./components/Login";
+import Mainpage from "./pages/Mainpage";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import Map from "./components/Map";
 
 const GlobalStyles = createGlobalStyle`

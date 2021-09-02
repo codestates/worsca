@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import logo from "../img/worsca.png";
 import video from "../video/loginpage.mp4";
-import config from "../config";
+import ClickSignIn from "../components/SignIn/ClickSignIn";
+import ClickLogin from "../components/SignIn/ClickLogin";
 
 // ! 스타일
 const LoginPageSection = styled.div`
@@ -97,30 +97,7 @@ const LoginBox = styled.form`
 	}
 `;
 
-const Login = ({ loginHandler, login }) => {
-	const [loginInfo, setLoginInfo] = useState({
-		email: "",
-		password: "",
-	});
-	const [errorMessage, setErrorMessage] = useState("");
-
-	const onClickLogin = (key) => (e) => {
-		setLoginInfo({ ...loginInfo, [key]: e.target.value });
-	};
-
-	const onSignIn = () => {
-		axios
-			.post(`${config.serverUrl}/users/signin`, loginInfo, {
-				withCredentials: true,
-			})
-			.then((res) => loginHandler(res.data));
-		if (!loginInfo.email || !loginInfo.password) {
-			setErrorMessage("이메일과 비밀번호를 입력하세요");
-			return;
-		}
-	};
-
-	// const clickLogin = () => {};
+const Login = ({ login }) => {
 	return (
 		<LoginPageSection>
 			{login && <Redirect to="/" />}
@@ -131,28 +108,9 @@ const Login = ({ loginHandler, login }) => {
 				<Link className="logo-link" to="/">
 					<img src={logo} alt="worsca" className="main__title__text"></img>
 				</Link>
-				<input
-					placeholder="이메일을 입력해주세요"
-					type="email"
-					onChange={onClickLogin("email")}
-				/>
-				<input
-					placeholder="비밀번호를 입력해주세요"
-					type="password"
-					onChange={onClickLogin("password")}
-				/>
+				<ClickLogin />
 				<Link className="find-id-pwd">아이디 및 비밀번호찾기</Link>
-				<div>
-					<button className="btn" onClick={onSignIn}>
-						LogIn
-					</button>
-					<button className="btn signup-btn">
-						<Link to="/signup" className="signup-link">
-							SignUp
-						</Link>
-					</button>
-					<div className="alert-box">{errorMessage}</div>
-				</div>
+				<ClickSignIn />
 			</LoginBox>
 		</LoginPageSection>
 	);

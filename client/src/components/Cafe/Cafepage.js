@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { StarOutlined, StarFilled } from "@ant-design/icons";
-import axios from "axios";
 
 const CafeSection = styled.div`
 	display: flex;
