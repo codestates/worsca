@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, Route, useHistory, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import video from "../video/mainpage.mp4";
 import logo from "../img/worsca.png";
-import Map from "./Map";
-
 // ! 스타일
 
 // 메인페이지 전체 스타일
@@ -129,7 +127,6 @@ const Mainpage = ({ login, loginHandler, inputHandler }) => {
 				) : (
 					<div
 						className="btn logout_btn"
-    
 						onClick={() => {
 							loginHandler({ user: { accessToken: "" } });
 						}}

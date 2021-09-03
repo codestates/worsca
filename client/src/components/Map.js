@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import config from "../config";
-
 import styled from "styled-components";
 import logo from "../img/worsca.png";
 import menubar from "../img/menubar.png";
-import Cafepage from "./Cafepage";
+import Cafepage from "./Cafe/Cafepage";
 import Modal from "react-modal";
-import CafeModal from "./CafeModal";
-import Mypage from "./Mypage";
-import Can from "./Can";
+import CafeModal from "./Cafe/CafeModal";
+import Mypage from "../pages/Mypage";
+import KakaoMap from "./KakaoMap";
 import axios from "axios";
 
 const MapSection = styled.div`
@@ -153,7 +152,7 @@ const mypageModalStyle = {
 	},
 };
 
-const Map = ({ place, login, inputData, accessToken }) => {
+const Map = ({ login, inputData, accessToken }) => {
 	const [boo, setBoo] = useState(false);
 	const [mypage, setMypage] = useState(false);
 
@@ -260,7 +259,7 @@ const Map = ({ place, login, inputData, accessToken }) => {
 					)}
 				</NavBtn>
 			</Nav>
-			<Can searchPlace={Place || inputData} mapChange={mapChange} />
+			<KakaoMap searchPlace={Place || inputData} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
 					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import config from "../config";
+import config from "../../config";
 
 // img
-import coffee from "../img/coffee.jpg";
-import coffee1 from "../img/coffee1.jpg";
-import coffee2 from "../img/coffee2.jpg";
-import homepage from "../img/homepage.png";
-import instagram from "../img/instagram.png";
-import reviewImg from "../img/review.png";
+import coffee from "../../img/coffee.jpg";
+import coffee1 from "../../img/coffee1.jpg";
+import coffee2 from "../../img/coffee2.jpg";
+import homepage from "../../img/homepage.png";
+import instagram from "../../img/instagram.png";
+import reviewImg from "../../img/review.png";
 
 const CafeModalSection = styled.div`
 	display: flex;

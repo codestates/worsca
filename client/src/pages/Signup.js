@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/signup.png";
 import axios from "axios";
@@ -69,7 +68,6 @@ const SignupBtn = styled.div`
 		border: 3px solid #dc422e;
 		background-color: #dc422e;
 	}
-
 	.signup_naver_btn {
 		border: 3px solid #30ca4a;
 		background-color: #30ca4a;
