@@ -8,7 +8,7 @@ import Cafepage from "./Cafe/Cafepage";
 import Modal from "react-modal";
 import CafeModal from "./Cafe/CafeModal";
 import Mypage from "../pages/Mypage";
-import Can from "./Can";
+import KakaoMap from "./KakaoMap";
 import axios from "axios";
 
 const MapSection = styled.div`
@@ -259,7 +259,7 @@ const Map = ({ login, inputData, accessToken }) => {
 					)}
 				</NavBtn>
 			</Nav>
-			<Can searchPlace={Place || inputData} mapChange={mapChange} />
+			<KakaoMap searchPlace={Place || inputData} mapChange={mapChange} />
 			<CafeBox>
 				{mapinfo.map((data) => {
 					return <Cafepage data={data} reverseBoo={reverseBoo}></Cafepage>;
