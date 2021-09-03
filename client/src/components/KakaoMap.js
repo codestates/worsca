@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const { kakao } = window;
 
-const Can = ({ searchPlace, mapChange }) => {
+const KakaoMap = ({ searchPlace, mapChange }) => {
 	useEffect(() => {
 		var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 		const container = document.getElementById("myMap");
@@ -69,4 +69,4 @@ const Can = ({ searchPlace, mapChange }) => {
 	);
 };
 
-export default Can;
+export default KakaoMap;
