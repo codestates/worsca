@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import config from "../config";
-import Cafepage from "./Cafepage";
+import Cafepage from "../components/Cafe/Cafepage";
 import deleteBtn from "../img/delete.png";
-import axios from "axios";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -53,9 +51,6 @@ const FavoriteBox = styled.div`
 		}
 	}
 `;
-
-// map되는지 테스트용 배열
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const Mypage = ({ accessToken, mark = "none" }) => {
 	const [email, setEmail] = useState("codestate@gmail.com");
